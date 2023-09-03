@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "dev": "tsc && vite build tailwindcss build ./src/index.css -o ./src/App.css",
+    "build": "tsc && vite build tailwindcss build ./src/index.css -o ./src/App.css",
+    "tail": "tailwindcss build -i ./src/index.css -o ./src/App.css",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,6 +15,8 @@
     "postcss": "^8.4.28",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "tailwind": "^4.0.0",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
