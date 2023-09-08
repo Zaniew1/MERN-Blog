@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --kill-others \"npm run tail\" \"npm run preview\"",
+    "dev": "concurrently  \"npm run preview\" \"npm run tail\"",
     "build": "tsc && vite && npx tailwindcss build ./src/tailwind.css -o ./src/index.css",
     "tail": "npx tailwindcss  -i ./src/tailwind.css -o ./src/index.css --watch",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
