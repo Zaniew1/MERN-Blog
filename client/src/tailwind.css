@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Trzeba było zainstalowac concurently paczkę npm żeby dało się połączyć 2 scripty tail i preview */
+
+*{
+    padding: 0; 
+    margin: 0;
+    box-sizing: border-box;
+}
