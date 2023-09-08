@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsc && vite build tailwindcss build ./src/index.css -o ./src/App.css",
-    "build": "tsc && vite build tailwindcss build ./src/index.css -o ./src/App.css",
-    "tail": "tailwindcss build -i ./src/index.css -o ./src/App.css",
+    "dev": "concurrently --kill-others \"npm run tail\" \"npm run preview\"",
+    "build": "tsc && vite && npx tailwindcss build ./src/tailwind.css -o ./src/index.css",
+    "tail": "npx tailwindcss  -i ./src/tailwind.css -o ./src/index.css --watch",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite"
   },
   "dependencies": {
     "autoprefix": "^1.0.1",
@@ -25,6 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "concurrently": "^8.2.1",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
