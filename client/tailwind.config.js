@@ -7,6 +7,10 @@ export default {
     extend: {
       boxShadow:{
         myShadow: '0px 3px 18px -9px rgba(66, 68, 90, 1)',
+      },
+      backgroundImage: {
+        'duck-picture': "url('src/assets/duck.jpg')",
+        'me-picture': "url('/src/assets/ja.jpg')",
       }
     },
   },
