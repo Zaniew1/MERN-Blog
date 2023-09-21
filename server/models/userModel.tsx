@@ -1,11 +1,12 @@
 import bcrypt from 'bcryptjs'
 import mongoose from 'mongoose';
-import crypto from 'crypto'
+// import crypto from 'crypto'
 
 type UserSchemaType = {
     email: string, 
     password: string,
     confirmPassword:string,
+    newsletter: boolean
 }
 
 const UserSchema = new mongoose.Schema<UserSchemaType>({
@@ -23,13 +24,16 @@ const UserSchema = new mongoose.Schema<UserSchemaType>({
         required: true,
         select: false ,
         validate:{
-            validator: function(el ){
+            validator: function(el:string ){
                 return el === this.password; 
             },
             message: "Password are not the same"
         },
         minlenght: 8,
     },
+    newsletter:{
+        type:Boolean
+    }
 })
 
 
