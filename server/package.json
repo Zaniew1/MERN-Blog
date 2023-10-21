@@ -8,6 +8,7 @@
     "global": "^4.4.0",
     "mongodb": "^5.8.1",
     "mongoose": "^7.5.2",
+    "multer": "^1.4.5-lts.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
