@@ -14,19 +14,18 @@ export const Login:React.FC = ():JSX.Element => {
             setError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny");
             return;
           }
-            // const response = await fetch("http://localhost:3001/loginUser", {
-            //     method: "POST",
-            //     headers: {
-            //       "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify({ email, password }),
-            //   })
-            //   if (!response.ok) {
-            //     const message = `An error has occured: ${response.status}`;
-            //     setError(message);
-            //   }
-            // const user = await response.json();
-            // console.log(user)
+            const response = await fetch("http://localhost:3001/loginUser", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+              })
+              if (!response.ok) {
+                const message = `An error has occured: ${response.status}`;
+                setError(message);
+              }
+            const user = await response.json();
     }
     
     
