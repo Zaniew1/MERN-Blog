@@ -1,10 +1,12 @@
-
-// Creating routes to endpoints
-import express from  'express';
-// import userController from  '../controllers/userController'
-// import authController from  '../controllers/authController'
+import express from 'express';
+import * as blogController from '../controllers/blogController';
 
 
-const router = express.Router();
-// router.get('/', userController.getAllUsers);
-// router.get('/users/:id', userController.getUser);
+const blogRouter = express.Router();
+blogRouter.get('/article/:id', blogController.getArticle);
+blogRouter.post('/article/', blogController.createNewArticle);
+blogRouter.get('/', blogController.getAllArticles);
+blogRouter.delete('/article/:id', blogController.deleteArticle);
+blogRouter.patch('/article/:id', blogController.editArticle);
+
+export default blogRouter;

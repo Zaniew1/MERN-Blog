@@ -4,10 +4,10 @@ type BlogSchemaType = {
     title: string, 
     summary: string,
     content:string,
-    mainPicture: File,
+    mainPicture: string,
     creationDate: number,
     creator?:string,
-    creatorAvatar?: File
+    creatorAvatar?: string
 }
 
 const BlogSchema = new mongoose.Schema<BlogSchemaType>({
@@ -28,7 +28,7 @@ const BlogSchema = new mongoose.Schema<BlogSchemaType>({
     },
     mainPicture:{
         required: true,
-        type: File
+        type: String
     },
     creationDate:{
         default:(new Date().getTime()),
@@ -38,7 +38,7 @@ const BlogSchema = new mongoose.Schema<BlogSchemaType>({
         type:String,
     },
     creatorAvatar:{
-        type: File,
+        type: String,
     },
 })
 const BlogModel = mongoose.model("posts", BlogSchema);
