@@ -26,6 +26,7 @@ export const Login:React.FC = ():JSX.Element => {
                 setError(message);
               }
             const user = await response.json();
+            console.log(user)
     }
     
     
