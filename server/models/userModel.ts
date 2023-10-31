@@ -29,7 +29,8 @@ const UserSchema = new Schema<UserSchemaType>({
         minlenght: 8,
     },
     newsletter:{
-        type:Boolean
+        type:Boolean,
+        default: false
     },
     creationDate:{
        default: (new Date().getTime()),
@@ -41,7 +42,6 @@ const UserSchema = new Schema<UserSchemaType>({
     passwordResetExpires: {
         type: Number
     }
-
 })
 
 export const createPasswordResetToken = function(this: UserSchemaType){
@@ -63,6 +63,6 @@ UserSchema.pre('save', function(next: CallbackWithoutResultAndOptionalError){
     // this.passwordChangedAt = Date.now() -1000;
     next();
 })
-const UserModel: Model<UserSchemaType> = model('User', UserSchema);
+const UserModel: Model<UserSchemaType> = model('Users', UserSchema);
 
 export default UserModel;
