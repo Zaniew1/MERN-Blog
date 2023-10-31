@@ -1,16 +1,15 @@
-import mongoose from 'mongoose';
-
-type BlogSchemaType = {
+import { Model, Schema, model, } from 'mongoose';
+export type BlogSchemaType = {
     title: string, 
     summary: string,
     content:string,
     mainPicture: string,
-    creationDate: number,
+    creationDate?: number,
     creator?:string,
-    creatorAvatar?: string
+    creatorAvatar?: string,
 }
 
-const BlogSchema = new mongoose.Schema<BlogSchemaType>({
+const BlogSchema = new Schema<BlogSchemaType>({
     title:{
         type:String,
         required: true,
@@ -27,7 +26,6 @@ const BlogSchema = new mongoose.Schema<BlogSchemaType>({
         maxlength: 5000,
     },
     mainPicture:{
-        required: true,
         type: String
     },
     creationDate:{
@@ -41,6 +39,7 @@ const BlogSchema = new mongoose.Schema<BlogSchemaType>({
         type: String,
     },
 })
-const BlogModel = mongoose.model("posts", BlogSchema);
+
+const BlogModel: Model<BlogSchemaType> = model("Blog", BlogSchema);
 
 export default BlogModel;
