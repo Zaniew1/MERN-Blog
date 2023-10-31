@@ -9,19 +9,11 @@ import blogRouter from './routes/blogRoutes';
 // import View from "grandjs";
 
 const app = express();
-mongoose.connect(`${process.env.MONGO_DB_PASS}`);
-// View.settings.set("views", "./views")
-// We are creating connection with MongoDB Atlas
-mongoose.connect(`${process.env.MONGO_DB_PASS}`);
-//We allow sending JSON from frontend to backend
 app.use(express.json());
-// We eliminate a lot of errors
 app.use(cors());
 app.options('*', cors());
-// Creating an endpoint
-
 // app.use('/', userRouter);
-app.use('/', blogRouter);
+app.use('/article', blogRouter);
 
 // Creating server
 app.listen(3001, ()=>{
@@ -33,5 +25,8 @@ app.all('*', (req: express.Request, res:express.Response, next: express.NextFunc
 })
 
 app.use(globalErrorHandler);
+
+mongoose.connect(`${process.env.MONGO_DB_PASS}`)
+.then(() => console.log('DB connection successful!'));
 
 export default app;
