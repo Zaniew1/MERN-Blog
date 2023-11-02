@@ -3,7 +3,7 @@ import {Home} from './components/Main/Home'
 import {Login} from './components/Auth/Login'
 import {Forget} from './components/Auth/Forget'
 import {Reset} from './components/Auth/Reset'
-import { CreateNewPost } from './components/Post/CreateNewPost';
+import { Create } from './components/Auth/Create';
 import './index.css';
 import './root.css';
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <Route path={'/login'} element={<Login/>}></Route>
       <Route path={'/forget'} element={<Forget/>}></Route>
       <Route path={'/reset'} element={<Reset/>}></Route>
-      <Route path={'/create'} element={<CreateNewPost/>}></Route>
+      <Route path={'/createUser'} element={<Create/>}></Route>
     </Routes>
     
 )
