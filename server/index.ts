@@ -4,7 +4,7 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import AppError from './utils/appError';
 import  globalErrorHandler from './controllers/errorController';
-// import userRouter from './routes/userRoutes';
+import userRouter from './routes/userRoutes';
 import blogRouter from './routes/blogRoutes';
 // import View from "grandjs";
 
@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.options('*', cors());
-// app.use('/', userRouter);
+app.use('/', userRouter);
 app.use('/article', blogRouter);
 
 // Creating server

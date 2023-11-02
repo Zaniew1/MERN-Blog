@@ -10,7 +10,7 @@ export const Nav = () => {
                             <p className="text-[1.4em] ml-[10px] text-black opacity-40 h-full"> Blog</p>
                         </a>
                     </header>
-                    <a  href="/login" className="flex justify-center items-center text-[1em] ml-[auto] mr-[20px] text-black opacity-40 h-full hover:text-neutral-500 lg:hidden ">Zaloguj</a>
+                    <a  href="/login" className="flex justify-center items-center text-[1em] ml-[auto] mr-[20px] text-black opacity-40 h-full hover:text-neutral-500  ">Zaloguj</a>
                     <Socials customStyle={" hidden w-[15%] justify-center items-center text-slate-400 py-[15px] text-[1.4em] lg:flex"}/>
                 </div>
             </nav>
