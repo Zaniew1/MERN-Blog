@@ -3,6 +3,7 @@ export type BlogSchemaType = {
     title: string, 
     summary: string,
     content:string,
+    contentCategory:string,
     mainPicture: string,
     creationDate?: number,
     creator?:string,
@@ -14,18 +15,26 @@ const BlogSchema = new Schema<BlogSchemaType>({
         type:String,
         required: true,
         minlength: 8,
+        maxlength: 100
     },
     summary:{
         type:String,
         required: true,
         minlength: 8,
+        maxlength: 150
     },
     content:{
         type:String,
         required: true,
-        maxlength: 5000,
+        maxlength: 10000,
+    },
+    contentCategory:{
+        required: true,
+        type:String,
+        maxlength: 50,
     },
     mainPicture:{
+        required: true,
         type: String
     },
     creationDate:{
@@ -38,6 +47,7 @@ const BlogSchema = new Schema<BlogSchemaType>({
     creatorAvatar:{
         type: String,
     },
+ 
 })
 
 const BlogModel: Model<BlogSchemaType> = model("Blog", BlogSchema);
