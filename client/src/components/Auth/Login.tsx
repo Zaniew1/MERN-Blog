@@ -1,9 +1,29 @@
-import {Nav} from '../Main/Nav';
+import { ContainerCard } from "../Utilities/ContainerCard";
 import { useState} from 'react';
+import { useNavigate } from 'react-router-dom'
+import { Popup } from '../Utilities/Popup';
+import { useContext } from "react";
+import {AuthContext} from '../../store/Auth-context'
+type UserDataType = {
+  _id:string,
+  email:string,
+  creationDate:number,
+  newsletter:boolean
+}
+type dataType = {
+  data: {user:UserDataType},
+  status:string,
+  token: string
+}
+
 export const Login:React.FC = ():JSX.Element => {
+
+    const navigate = useNavigate();
+    const {setloggedIn, setUserData} = useContext(AuthContext);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
+    const [success, setSuccess] = useState<string>('');
     const Login = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault(); 
         if(email === ""){
@@ -22,30 +42,35 @@ export const Login:React.FC = ():JSX.Element => {
                 body: JSON.stringify({ email, password }),
               })
               if (!response.ok) {
-                const message = `An error has occured: ${response.status}`;
-                setError(message);
+                setError("Logowanie nie udane!");
+              }else{
+                setloggedIn(true);
+                setSuccess("Udało się zalogować!");
+                setTimeout(()=>{
+                  navigate('/');
+                }, 1000)
               }
-            const user = await response.json();
-            console.log(user)
+            const data: dataType = await response.json();
+            setUserData(data.data.user);
     }
     
     
     return (
-        <div className="flex justify-center">
-            <Nav/>
-            <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[35%] xl:w-[25%]">
+      <ContainerCard>
+            {success && <Popup type="success" text={success}/>}
+            {error && <Popup type="error" text={error}/>}
+            <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[70%] lg:w-[45%] xl:w-[35%]">
                 <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Zaloguj się</p>
                 <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={Login}>
                     <label className="text-[1em] font-semibold py-[5px]" htmlFor="email">Email</label>
                     <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="email" id="email" type="text" onChange={(e)=>{setEmail(e.target.value); setError('');}} value={email} placeholder="Podaj email" />
                     <label className="text-[1em] font-semibold py-[5px]" htmlFor="password">Hasło</label>
                     <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" id="password" onChange={(e)=>{setPassword(e.target.value);  setError('');}} value={password} type="password" placeholder="Podaj hasło" />
-                    <div className="text-[red] text-[0.7em] mt-[15px] text-center">{error ? error : ''}</div>
                     <button  type="submit" className="w-[80%] m-auto my-[2em] border border-cyan-700 text-[1.2em] font-semibold py-[0.5em] shadow-myShadow hover:bg-cyan-700 hover:text-white">Zaloguj</button>
                 </form>
                 <a href="/createUser" className="mt-[20px] text-[0.8em] underline ">Stwórz nowego użytkownika</a>
-                <a href="/forget" className="mt-[20px] text-[0.8em] underline ">Nie pamiętam hasła</a>
+                <a href="/forgetPassword" className="mt-[20px] text-[0.8em] underline ">Nie pamiętam hasła</a>
             </div>
-        </div>
+      </ContainerCard>
     )
 }
