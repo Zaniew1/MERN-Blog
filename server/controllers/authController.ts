@@ -22,8 +22,7 @@ const createSendToken = (user:any, statusCode:number, req: express.Request, res:
     const token = signToken(user._id);
     
     // res.cookie('jwt', token, {
-    //     expires: new Date(
-    //       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+    //     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
     //     httpOnly: true,
     //     secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
     //   });
@@ -130,6 +129,24 @@ export const loginUser = catchAsync(async (req:express.Request, res:express.Resp
             return next(new AppError('No reset token sent', 500));
         }
     });
+    export const changePassword = catchAsync(async (req: express.Request, res: express.Response, next:express.NextFunction) =>{
+        const {oldPass, newPass, confirmNewPass, email} = req.body
+        // const hashedNewPass = crypto.createHash('sha256').update(newPass).digest('hex');
+        const user = await UserModel.findOne({email}).select('+password');
+        if(!user) return next(new AppError('User not found', 404));
+
+        const isGoodPassword = await comparePasswords(oldPass, user.password);
+        if(!isGoodPassword) return next(new AppError('Old password that you provided was incorrect', 400));
+        if(newPass !== confirmNewPass) return next(new AppError('New password and confirm password are not the same', 400));
+        user.password = newPass;
+        user.confirmPassword = confirmNewPass;
+        await user.save();
+        res.status(200).json({
+            status: 'success',
+        })
+    })
+
+
     export const resetPassword = catchAsync(async (req: express.Request, res: express.Response, next:express.NextFunction) =>{
         const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
         const user =  await UserModel.findOne({passwordResetToken: hashedToken, passwordResetExpires: {$gt:Date.now()}})
