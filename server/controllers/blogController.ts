@@ -12,11 +12,12 @@ export const createNewArticle: RequestHandler = catchAsync( async (req:express.R
     if(!title  || !summary || !content){
         return next(new AppError('There are not enough information provided', 404));
     }
-    if(title.length < 10 || title.length > 50){
-        return next(new AppError('Length of the title should be between 10 and 50 chars', 404));
+    
+    if(title.length < 8 || title.length > 100){
+        return next(new AppError('Length of the title should be between 10 and 100 chars', 404));
     }
-    if(summary.length < 10 || summary.length > 100){
-        return next(new AppError('Length of the summary should be between 10 and 100 chars', 404));
+    if(summary.length < 8 || summary.length > 150){
+        return next(new AppError('Length of the summary should be between 10 and 150 chars', 404));
     }
     if(content.length < 10 || content.length > 10000){
         return next(new AppError('Length of the content should be between 10 and 10000 chars', 404));
