@@ -1,11 +1,23 @@
 import express from 'express';
 import * as blogController from '../controllers/blogController';
+import { Request} from 'express';
+import multer, { Multer } from 'multer';
+
+const storage = multer.diskStorage({
+    destination: (req: Request, file, cb) => {
+        cb(null, 'assets/images/posts/'); 
+    },
+    filename: (req: Request, file, cb) => {
+        cb(null, file.originalname); // Use the original filename for the uploaded file
+    },
+});
+const uploadMulter: Multer = multer({ storage });
 
 const blogRouter = express.Router();
 
 blogRouter
     .route('/')
-    .post(blogController.createNewArticle)
+    .post( uploadMulter.single('mainPicture'), blogController.createNewArticle)
     .get(blogController.getAllArticles)
 
 blogRouter

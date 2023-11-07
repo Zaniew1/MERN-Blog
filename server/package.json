@@ -23,6 +23,7 @@
     "@types/express": "^4.17.17",
     "@types/html-to-text": "^9.0.3",
     "@types/jsonwebtoken": "^9.0.4",
+    "@types/multer": "^1.4.10",
     "@types/nodemailer": "^6.4.13",
     "nodemon": "^3.0.1"
   },

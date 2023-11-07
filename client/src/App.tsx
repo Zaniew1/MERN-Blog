@@ -7,6 +7,7 @@ import {ChangePassword} from './components/Auth/ChangePassword'
 import {Reset} from './components/Auth/Reset'
 import {SinglePost} from './components/Post/SinglePost';
 import { Create } from './components/Auth/Create';
+import {CreateNewPost} from './components/Post/CreateNewPost'
 import './index.css';
 import './root.css';
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Route path={'/reset'} element={<Reset/>}></Route>
       <Route path={'/createUser'} element={<Create/>}></Route>
       <Route path={'/me'} element={<Me/>}></Route>
+      <Route path={'/CreateNewPost'} element={<CreateNewPost/>}></Route>
       <Route path={'/:id'} element={<SinglePost/>}></Route>
     </Routes>
     

@@ -13,11 +13,12 @@ type NextPostType = {
 }
 export const NextPost:React.FC<NextPostType> = (props):JSX.Element => {
     const date = new Date(props.creationDate).toLocaleDateString();
+    console.log(props.mainPicture)
     return(
         <article className={`mt-[20px] mx-[15px] z-10 border-b border-solid border-slate-300 md:border-none md:mb-[60px] ${props.index > 2 ? "lg:w-[25%]" : "lg:w-[45%]"} lg:flex-grow `}>
             <a href={`/${props.id}`}>
                 <div className={`w-full h-[200px] border bg-duck-picture bg-center cursor-pointer bg-cover md:aspect-video md:h-auto ${props.index > 2 ? "lg:aspect-video" : "lg:h-[300px]"}`}>
-                    <img className="w-full h-full " src={`src/assets/${props.mainPicture}.jpg`}/>    
+                    <img className="w-full h-full " src={`http://localhost:3001/${props.mainPicture}`}/>    
                 </div>
                 <p className="tracking-wide font-bold text-[1.2em] py-[15px] text-[#2C3241] md:text-[1em] ">{props.contentCategory}</p>
                 <h3 className="text-[1.6em] cursor-pointer font-bold text-[#2C3241] md:text-[1.8em] md:font-semibold hover:text-sky-700">{props.title}</h3>

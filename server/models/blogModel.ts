@@ -26,11 +26,13 @@ const BlogSchema = new Schema<BlogSchemaType>({
     content:{
         type:String,
         required: true,
+        minlength: 100,
         maxlength: 10000,
     },
     contentCategory:{
         required: true,
         type:String,
+        minlength: 4,
         maxlength: 50,
     },
     mainPicture:{

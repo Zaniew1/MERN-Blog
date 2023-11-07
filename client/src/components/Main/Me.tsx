@@ -22,6 +22,7 @@ export const Me:React.FC = ():JSX.Element => {
                 <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" id="confirmPassword" onChange={(e)=>{setSurname(e.target.value);  setError('');}} value={surname} type="text" placeholder="Twoje nazwisko" />
                 <button  type="submit" className="w-[80%] m-auto my-[2em] border border-cyan-700 text-[1.2em] font-semibold py-[0.5em] lg:w-[60%] shadow-myShadow hover:bg-cyan-700 hover:text-white">Zapisz</button>
                 <a href="/changePassword" className="mt-[20px] text-[0.8em] underline text-center">Zmień hasło</a>
+                <a href="/CreateNewPost" className="mt-[20px] text-[0.8em] underline text-center">Dodaj post</a>
             </form>
                 <div>
                     {/* //posty */}

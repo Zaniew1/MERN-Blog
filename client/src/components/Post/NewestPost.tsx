@@ -13,9 +13,10 @@ type NewestPostType = {
 }
 export const NewestPost:React.FC<NewestPostType> = (props):JSX.Element =>{
     const date = new Date(props.creationDate).toLocaleDateString()
+    console.log(props)
     return (
-        <article>
-            <a href={`/${props.id}`} className=" flex flex-col w-[95%] mx-auto   pb-[25px] mt-[100px] border-b border-solid border-slate-300 z-10 md:flex-row md:border-none lg:flex-grow lg:mx-[15px]">
+        <article className=" flex flex-col w-[95%] mx-auto   pb-[25px] mt-[100px] border-b border-solid border-slate-300 z-10 md:flex-row md:border-none lg:flex-grow lg:mx-[15px]">
+            <a href={`/${props.id}`} className="flex flex-col w-full h-full md:flex-row lg:flex-grow ">
                 <div className="w-full md:w-[50%] lg:flex-col lg:flex lg:justify-center mr-[15px]">
                     <p className="tracking-wide font-bold text-[1.2em] pb-[15px] text-[#2C3241] md:mb-[15px]">Newest Post</p>
                     <h3 className="text-[2.3em] font-bold cursor-pointer transition ease-in-out text-[#2C3241] leading-tight md:mb-[25px] md:text-[3.4em] md:leading-[1.1em] hover:text-sky-700">{props.title}</h3>
@@ -33,7 +34,7 @@ export const NewestPost:React.FC<NewestPostType> = (props):JSX.Element =>{
                     </div>
                 </div>
                 <div className="w-full aspect-square cursor-pointer border md:w-[50%] my-auto lg:ml-[15px] ">
-                    <img className="w-full h-full " src={`src/assets/${props.mainPicture}.jpg`}/>
+                    <img className="w-full h-full " src={`http://localhost:3001/${props.mainPicture}`}/>
                 </div>
             </a>
         </article>
