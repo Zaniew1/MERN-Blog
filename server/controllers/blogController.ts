@@ -10,7 +10,6 @@ import 'dotenv/config';
 
 export const createNewArticle: RequestHandler = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
     let {title, summary, content,  contentCategory, mainPicture, creator, creatorAvatar} = req.body as BlogSchemaType;
-    const uploadedFile = req.file;
 
     // if(!title  || !summary || !content  || !contentCategory){
     //     return next(new AppError('There are not enough information provided', 400));
@@ -27,15 +26,9 @@ export const createNewArticle: RequestHandler = catchAsync( async (req:Request, 
     // if(contentCategory.length < 4 || contentCategory.length > 50){
     //     return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 404));
     // }
-    // if(req.file){
-        console.log(req.file)
-    //     const {originalname, path} = req.file;
-    //     const parts = originalname.split('.');
-    //     const ext = parts[parts.length - 1];
-    //     const newPath = path+"."+ext;
-    //     fs.renameSync(path, newPath );
-        req.body.mainPicture = `${req.file?.destination}${req.file?.originalname}`;
-    // }
+    if(req.file){
+      req.body.mainPicture = req.file.path
+    }
     const newPost = await BlogModel.create(req.body);
     res.status(201).json({
         status: "success",

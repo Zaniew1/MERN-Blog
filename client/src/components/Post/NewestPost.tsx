@@ -24,7 +24,7 @@ export const NewestPost:React.FC<NewestPostType> = (props):JSX.Element =>{
                     <div className="w-full  my-[15px] flex">
                         <div className="w-[30%] h-full flex justify-center items-center md:justify-start md:w-[100px]">
                             <div className="w-[70px] h-[70px] rounded-[50%]">
-                                <img className="w-full h-full rounded-[50%]" src={`src/assets/${props.creatorAvatar}.jpg`}/>
+                                <img className="w-full h-full rounded-[50%]" src={`http://localhost:3001/images/ja.jpg`}/>
                             </div>
                         </div>
                         <div className=" w-[70%] ">

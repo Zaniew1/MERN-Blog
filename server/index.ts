@@ -16,10 +16,11 @@ app.use('/', userRouter);
 app.use('/article', blogRouter);
 
 // Creating server
+app.use("/images", express.static(__dirname + '/images'));
+console.log(__dirname + '/images')
 app.listen(3001, ()=>{
     console.log("Server runs good !")
 })
-
 app.all('*', (req: express.Request, res:express.Response, next: express.NextFunction)=>{
     next( new AppError(`Cant find ${req.originalUrl} on this server`, 404))
 })

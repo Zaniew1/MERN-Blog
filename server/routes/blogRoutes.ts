@@ -5,10 +5,11 @@ import multer, { Multer } from 'multer';
 
 const storage = multer.diskStorage({
     destination: (req: Request, file, cb) => {
-        cb(null, 'assets/images/posts/'); 
+        cb(null, 'images/'); 
     },
     filename: (req: Request, file, cb) => {
-        cb(null, file.originalname); // Use the original filename for the uploaded file
+        const date = Date.now();
+        cb(null, date+"_"+file.originalname); // Use the original filename for the uploaded file
     },
 });
 const uploadMulter: Multer = multer({ storage });
