@@ -7,13 +7,15 @@ import  globalErrorHandler from './controllers/errorController';
 import userRouter from './routes/userRoutes';
 import blogRouter from './routes/blogRoutes';
 // import View from "grandjs";
+import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({credentials: true, origin:'http://localhost:5173'}));
 app.options('*', cors());
 app.use('/', userRouter);
 app.use('/article', blogRouter);
+app.use(cookieParser());
 
 // Creating server
 app.use("/images", express.static(__dirname + '/images'));
