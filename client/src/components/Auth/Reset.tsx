@@ -1,4 +1,3 @@
-import { ContainerCard } from "../Utilities/ContainerCard";
 
 export const Reset:React.FC = ():JSX.Element => {
     
@@ -8,7 +7,7 @@ export const Reset:React.FC = ():JSX.Element => {
     
     
     return (
-        <ContainerCard>
+        <>
             <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[35%] xl:w-[25%]">
                 <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Zresetuj hasło</p>
                 <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={asd}>
@@ -18,6 +17,6 @@ export const Reset:React.FC = ():JSX.Element => {
                 </form>
                 <a href="/forget" className="mt-[20px] text-[0.8em] underline ">Nie pamiętam hasła</a>
             </div>
-        </ContainerCard>
+        </>
     )
 }
