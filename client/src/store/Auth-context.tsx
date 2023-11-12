@@ -23,7 +23,7 @@ export const AuthContext = React.createContext<AuthContextType>({
     setloggedIn: () => {false},
     userData:{
       _id:"",
-      email:"",
+      email:"Mateusz Zaniewski",
       creationDate:0,
       newsletter:false
     },
