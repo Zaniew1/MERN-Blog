@@ -24,7 +24,7 @@ blogRouter
 blogRouter
     .route('/:id')
     .get(blogController.getArticle)
-    .patch(blogController.editArticle)
+    .put(uploadMulter.single('mainPicture'), blogController.editArticle)
     .delete(blogController.deleteArticle)
 
 export default blogRouter;
