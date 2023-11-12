@@ -1,11 +1,10 @@
 import { ContainerCard } from "../Utilities/ContainerCard";
 import {useState} from 'react';
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Popup } from '../Utilities/Popup';
 import {Editor} from '../Utilities/Editor'
-
 export const CreateNewPost:React.FC = ():JSX.Element => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [title, setTitle] = useState<string>('');
     const [summary, setSummary] = useState<string>('');
     const [content, setContent] = useState<string>('');
@@ -17,23 +16,22 @@ export const CreateNewPost:React.FC = ():JSX.Element => {
     const [success , setSuccess] = useState<string>('');
     const createNewPost = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // if(title.length < 8 || title.length > 100 ){
-        //     setError("Długość tytułu powinna wynosić od 8 do 100 znaków");
-        //     return;
-        // }
-        // else if(summary.length < 8 || summary.length > 150 ){
-        //     setError("Długość podsumowania powinna wynosić od 8 do 100 znaków");
-        //     return;
-        // }
-        // else if(content.length < 100 || content.length > 10000 ){
-        //     setError("Długość zawartości artykułu powinna wynosić od 8 do 100 znaków");
-        //     return;
-        // }
-        // else if(contentCategory.length < 4 || contentCategory.length > 50 ){
-        //     setError("Długość kategorii tytułu powinna wynosić od 8 do 100 znaków");
-        //     return;
-        // }
-        console.log(mainPicture)
+        if(title.length < 8 || title.length > 100 ){
+            setError("Długość tytułu powinna wynosić od 8 do 100 znaków");
+            return;
+        }
+        else if(summary.length < 8 || summary.length > 150 ){
+            setError("Długość podsumowania powinna wynosić od 8 do 100 znaków");
+            return;
+        }
+        else if(content.length < 100 || content.length > 10000 ){
+            setError("Długość zawartości artykułu powinna wynosić od 8 do 100 znaków");
+            return;
+        }
+        else if(contentCategory.length < 4 || contentCategory.length > 50 ){
+            setError("Długość kategorii tytułu powinna wynosić od 8 do 100 znaków");
+            return;
+        }
         setCreatorAvatar('ja');
         setCreator('Mateusz Zaniewski');
         const data = new FormData();
@@ -54,9 +52,9 @@ export const CreateNewPost:React.FC = ():JSX.Element => {
             setError("Nie udało się dodać artykułu. Spróbuj ponownie później!");
           }else{
             setSuccess("Udało się stworzyć artykuł!");
-            // setTimeout(()=>{
-            //   navigate('/');
-            // }, 2000)
+            setTimeout(()=>{
+              navigate('/');
+            }, 2000)
           }
     }
 
