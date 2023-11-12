@@ -1,4 +1,3 @@
-import { ContainerCard } from "../Utilities/ContainerCard";
 import { useState} from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Popup } from '../Utilities/Popup';
@@ -29,6 +28,7 @@ export const Create:React.FC = ():JSX.Element => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password, confirmPassword}),
+                credentials: 'include'
               })
               if (!response.ok) {
                 const message = `An error has occured: ${response.status}`;
@@ -47,7 +47,7 @@ export const Create:React.FC = ():JSX.Element => {
     
     
     return (
-      <ContainerCard>
+      <>
         {success && <Popup type={'success'} text={success}/>}
         <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[35%] xl:w-[25%]">
             <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Stwórz użytkownika</p>
@@ -62,6 +62,6 @@ export const Create:React.FC = ():JSX.Element => {
                 <button  type="submit" className="w-[80%] m-auto my-[2em] border border-cyan-700 text-[1.2em] font-semibold py-[0.5em] shadow-myShadow hover:bg-cyan-700 hover:text-white">Stwórz</button>
             </form>
         </div>
-      </ContainerCard>
+      </>
     )
 }

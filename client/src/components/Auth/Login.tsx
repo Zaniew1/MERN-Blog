@@ -1,4 +1,3 @@
-import { ContainerCard } from "../Utilities/ContainerCard";
 import { useState} from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Popup } from '../Utilities/Popup';
@@ -10,8 +9,9 @@ type UserDataType = {
   creationDate:number,
   newsletter:boolean
 }
+
 type dataType = {
-  data: {user:UserDataType},
+  data: UserDataType,
   status:string,
   token: string
 }
@@ -40,6 +40,7 @@ export const Login:React.FC = ():JSX.Element => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password }),
+                credentials: 'include'
               })
               if (!response.ok) {
                 setError("Logowanie nie udane!");
@@ -50,13 +51,14 @@ export const Login:React.FC = ():JSX.Element => {
                   navigate('/');
                 }, 1000)
               }
-            const data: dataType = await response.json();
-            setUserData(data.data.user);
+            const user: dataType = await response.json();
+            console.log(user)
+            setUserData(user.data as UserDataType);
     }
     
     
     return (
-      <ContainerCard>
+      <>
             {success && <Popup type="success" text={success}/>}
             {error && <Popup type="error" text={error}/>}
             <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[70%] lg:w-[45%] xl:w-[35%]">
@@ -71,6 +73,6 @@ export const Login:React.FC = ():JSX.Element => {
                 <a href="/createUser" className="mt-[20px] text-[0.8em] underline ">Stwórz nowego użytkownika</a>
                 <a href="/forgetPassword" className="mt-[20px] text-[0.8em] underline ">Nie pamiętam hasła</a>
             </div>
-      </ContainerCard>
+      </>
     )
 }

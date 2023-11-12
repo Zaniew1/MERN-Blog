@@ -1,4 +1,3 @@
-import { ContainerCard } from "../Utilities/ContainerCard";
 import { Popup } from "../Utilities/Popup";
 import { useNavigate } from 'react-router-dom'
 import {useState} from 'react';
@@ -25,6 +24,7 @@ export const ChangePassword:React.FC = ():JSX.Element => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ oldPass, newPass, confirmNewPass, email:'m.zaniewski1995@gmail.com' }),
+            credentials: 'include'
           })
           const data = await response.json();
           console.log(data)
@@ -36,7 +36,7 @@ export const ChangePassword:React.FC = ():JSX.Element => {
         }
     }
     return (
-        <ContainerCard>
+        <>
             {success && <Popup type={'success'} text={success}/>}
             {error && <Popup type={'error'} text={error}/>}
             <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[35%] ">
@@ -52,6 +52,6 @@ export const ChangePassword:React.FC = ():JSX.Element => {
                     <button type="submit" className="w-[80%] m-auto my-[2em] border border-cyan-700 text-[0.8em] py-[12px] font-semibold shadow-myShadow hover:bg-cyan-700 hover:text-white">Zmień hasło</button>
                 </form>
             </div>
-        </ContainerCard>
+        </>
     )
 }
