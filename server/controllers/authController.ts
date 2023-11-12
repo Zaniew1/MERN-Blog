@@ -20,21 +20,25 @@ const signToken = (id:number) => {
 }
 const createSendToken = (user:any, statusCode:number, req: express.Request, res: express.Response) => {
     const token = signToken(user._id);
-    
-    // res.cookie('jwt', token, {
-    //     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
-    //     httpOnly: true,
-    //     secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
-    //   });
-  
+    const numberOfDaysCookieExpires: string | undefined = process.env.JWT_COOKIE_EXPIRES_IN;
+    let expirationTime = 0;
+    if(numberOfDaysCookieExpires){
+        expirationTime  = parseInt(numberOfDaysCookieExpires) * (24 * 60 * 60 * 1000)
+    }else{
+        expirationTime = 2 * (24 * 60 * 60 * 1000)
+    }
+    res.cookie('jwt', token, {
+        expires: new Date(Date.now() + expirationTime),
+        httpOnly: true,
+        secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+      });
+    // res.cookie('jwt', token).json('ok');
     // Remove password from output
     user.password = undefined;
     res.status(statusCode).json({
       status: 'success',
       token,
-      data: {
-        user
-      }
+      data: user
     });
   };
 
@@ -44,7 +48,17 @@ export const comparePasswords = async function( typedPassword:string, databasePa
     return await bcrypt.compare(typedPassword, databasePassword);
 }
 
-// działa
+export const myProfile = catchAsync(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
+    console.log(req.cookies)
+    const {token} = req.cookies;
+    if(process.env.JWT_SECRET){
+        jwt.verify(token, process.env.JWT_SECRET, {}, (err,info) => {
+            if (err) throw err;
+            res.json(info);
+        });
+    }
+})
+
 export const createNewUser = catchAsync( async (req: express.Request, res:express.Response, next: express.NextFunction) => {
     const {email, password, confirmPassword} = req.body;
     if(!email || !password){
@@ -94,14 +108,11 @@ export const loginUser = catchAsync(async (req:express.Request, res:express.Resp
     })
     //działa
     export const logoutUser = catchAsync(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-        res.cookie('jwt', 'loggedout', {
-            expires: new Date(Date.now() + 10 * 1000),
-            httpOnly: true
-          });
-          res.status(200).json({ status: 'success' });
+        res.cookie('jwt', '', {});
+        res.status(200).json({ status: 'success' });
     })
 
-
+ 
     export const forgetPassword = catchAsync( async (req: express.Request, res: express.Response, next:express.NextFunction)=>{
         // find an account with that email
         const user = await UserModel.findOne({email:req.body.email})
@@ -146,6 +157,13 @@ export const loginUser = catchAsync(async (req:express.Request, res:express.Resp
         })
     })
 
+    export const subscribeNewsletter = catchAsync(async (req: express.Request, res: express.Response, next:express.NextFunction) =>{
+
+
+        res.status(200).json({
+            status: 'success',
+        })
+    })
 
     export const resetPassword = catchAsync(async (req: express.Request, res: express.Response, next:express.NextFunction) =>{
         const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
