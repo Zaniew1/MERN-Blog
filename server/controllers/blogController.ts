@@ -1,33 +1,30 @@
 
 import catchAsync from '../utils/catchAsync';
-import express, { RequestHandler,Request, Response, NextFunction } from 'express';
+import  { RequestHandler,Request, Response, NextFunction } from 'express';
 import  AppError from '../utils/appError';
 import BlogModel from '../models/blogModel';
 import {BlogSchemaType} from '../models/blogModel';
-import fs from 'fs';
 import 'dotenv/config';
 
-
 export const createNewArticle: RequestHandler = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
-    let {title, summary, content,  contentCategory, mainPicture, creator, creatorAvatar} = req.body as BlogSchemaType;
-
-    // if(!title  || !summary || !content  || !contentCategory){
-    //     return next(new AppError('There are not enough information provided', 400));
-    // }
-    // if(title.length < 8 || title.length > 100){
-    //     return next(new AppError('Length of the title should be between 10 and 100 chars', 404));
-    // }
-    // if(summary.length < 8 || summary.length > 150){
-    //     return next(new AppError('Length of the summary should be between 10 and 150 chars', 404));
-    // }
-    // if(content.length < 10 || content.length > 10000){
-    //     return next(new AppError('Length of the content should be between 10 and 10000 chars', 404));
-    // }
-    // if(contentCategory.length < 4 || contentCategory.length > 50){
-    //     return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 404));
-    // }
-    if(req.file){
-      req.body.mainPicture = req.file.path
+    let {title, summary, content,  contentCategory} = req.body as BlogSchemaType;
+    if(!title  || !summary || !content  || !contentCategory ){
+        return next(new AppError('There are not enough information provided', 400));
+    }
+    if(title.length < 8 || title.length > 100){
+        return next(new AppError('Length of the title should be between 10 and 100 chars', 404));
+    }
+    if(summary.length < 8 || summary.length > 150){
+        return next(new AppError('Length of the summary should be between 10 and 150 chars', 404));
+    }
+    if(content.length < 10 || content.length > 10000){
+        return next(new AppError('Length of the content should be between 10 and 10000 chars', 404));
+    }
+    if(contentCategory.length < 4 || contentCategory.length > 50){
+        return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 404));
+    }
+    if(req.file ){
+      req.body.mainPicture = (req.file as Express.Multer.File).path
     }
     const newPost = await BlogModel.create(req.body);
     res.status(201).json({
@@ -52,6 +49,27 @@ export const deleteArticle: RequestHandler<{id:string}> = catchAsync( async (req
 
 export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
     const id = req.params.id;
+    let {title, summary, content,  contentCategory, mainPicture, creator, creatorAvatar} = req.body as BlogSchemaType;
+    if(!title  || !summary || !content  || !contentCategory ){
+        return next(new AppError('There are not enough information provided', 400));
+    }
+    if(title.length < 8 || title.length > 100){
+        return next(new AppError('Length of the title should be between 10 and 100 chars', 404));
+    }
+    if(summary.length < 8 || summary.length > 150){
+        return next(new AppError('Length of the summary should be between 10 and 150 chars', 404));
+    }
+    if(content.length < 10 || content.length > 10000){
+        return next(new AppError('Length of the content should be between 10 and 10000 chars', 404));
+    }
+    if(contentCategory.length < 4 || contentCategory.length > 50){
+        return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 404));
+    }
+    if(req.file ){
+        req.body.mainPicture = (req.file as Express.Multer.File).path
+      }
+
+
     const post = await BlogModel.findByIdAndUpdate(id, req.body, {
         new: true,
         runValidators: true
