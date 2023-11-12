@@ -1,12 +1,13 @@
 
-import {ContainerCard } from "../Utilities/ContainerCard";
 import {NewestPost} from '../Post/NewestPost'
 import {NextPost} from '../Post/NextPost'
 import {Subscription} from '../Subscription/Subscription'
 import {Socials} from '../Socials/Socials'
 import {Footer} from '../Footer/Footer'
 import {SeeMoreButton} from '../Buttons/SeeMoreButton'
-import {useEffect, useState} from 'react';
+import {useEffect, useState, } from 'react';
+// import {AuthContext} from '../../store/Auth-context';
+
  type PostsType = {
     _id: number,
     title:string,
@@ -18,6 +19,8 @@ import {useEffect, useState} from 'react';
  }
 
 export const Home = () => {
+    // const {loggedIn, setLoggedIn } = useContext(AuthContext);
+
     const [posts , setPosts] = useState<PostsType[]>([]);
     useEffect(() => {
         const fetchPosts = async () => {
@@ -32,9 +35,21 @@ export const Home = () => {
         };
         fetchPosts();
       }, []);
-
+    //   useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         const response = await fetch("http://localhost:3001/profile", {
+    //             method: "GET",
+    //             headers: {
+    //               "Content-Type": "application/json",
+    //             },
+    //           });
+    //           const data = await  response.json();
+    //           setMe(data)
+    //     };
+    //     fetchUserData();
+    //   }, []);
     return (
-            <ContainerCard>
+            <>
                 {posts.map((el, index)=>{
                     const {_id, title, summary, content, contentCategory, mainPicture, creationDate} = el as PostsType;
                        return(
@@ -50,6 +65,6 @@ export const Home = () => {
                 <Subscription/>
                 <Socials/>
                 <Footer/>
-            </ContainerCard>
+            </>
     );
 }  
