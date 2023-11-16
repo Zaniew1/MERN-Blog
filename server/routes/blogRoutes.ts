@@ -2,7 +2,7 @@ import express from 'express';
 import * as blogController from '../controllers/blogController';
 import { Request} from 'express';
 import multer, { Multer } from 'multer';
-
+import {protect} from '../middleware/authMiddleware'
 const storage = multer.diskStorage({
     destination: (req: Request, file, cb) => {
         cb(null, 'images/'); 
@@ -18,13 +18,13 @@ const blogRouter = express.Router();
 
 blogRouter
     .route('/')
-    .post( uploadMulter.single('mainPicture'), blogController.createNewArticle)
+    .post( protect, uploadMulter.single('mainPicture'), blogController.createNewArticle)
     .get(blogController.getAllArticles)
 
 blogRouter
     .route('/:id')
     .get(blogController.getArticle)
-    .put(uploadMulter.single('mainPicture'), blogController.editArticle)
-    .delete(blogController.deleteArticle)
+    .put(protect, uploadMulter.single('mainPicture'), blogController.editArticle)
+    .delete(protect, blogController.deleteArticle)
 
 export default blogRouter;
