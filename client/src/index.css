@@ -593,11 +593,6 @@ video {
   margin-right: auto;
 }
 
-.my-\[10px\] {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 .my-\[15px\] {
   margin-top: 15px;
   margin-bottom: 15px;
@@ -659,6 +654,10 @@ video {
   margin-top: 100px;
 }
 
+.mt-\[10px\] {
+  margin-top: 10px;
+}
+
 .mt-\[150px\] {
   margin-top: 150px;
 }
@@ -677,10 +676,6 @@ video {
 
 .mt-\[30px\] {
   margin-top: 30px;
-}
-
-.mt-\[10px\] {
-  margin-top: 10px;
 }
 
 .flex {
@@ -1356,8 +1351,8 @@ video {
     aspect-ratio: 16 / 9;
   }
 
-  .lg\:h-\[300px\] {
-    height: 300px;
+  .lg\:h-\[200px\] {
+    height: 200px;
   }
 
   .lg\:h-\[70px\] {
