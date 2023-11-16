@@ -49,7 +49,7 @@ export const deleteArticle: RequestHandler<{id:string}> = catchAsync( async (req
 
 export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
     const id = req.params.id;
-    let {title, summary, content,  contentCategory, mainPicture, creator, creatorAvatar} = req.body as BlogSchemaType;
+    let {title, summary, content,  contentCategory, mainPicture, creator} = req.body as BlogSchemaType;
     if(!title  || !summary || !content  || !contentCategory ){
         return next(new AppError('There are not enough information provided', 400));
     }
@@ -87,7 +87,7 @@ export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:R
 })
 
 export const getAllArticles: RequestHandler = catchAsync( async (req: Request, res: Response, next:  NextFunction) => {
-    const posts = await BlogModel.find();
+    const posts = await BlogModel.find().populate('creator', ['name', 'surname', 'email']);
     res.status(200).json({
         status: 'success',
         posts
@@ -95,7 +95,8 @@ export const getAllArticles: RequestHandler = catchAsync( async (req: Request, r
 })
 
 export const getArticle: RequestHandler<{id:string}> = catchAsync( async (req: Request, res: Response, next:  NextFunction) => {
-    const post = await BlogModel.findById(req.params.id);
+    const post = await BlogModel.findById(req.params.id).populate('creator', ['name', 'surname', 'email']);
+    
     if(!post){
         return next(new AppError('There is no such post', 404));
     }
