@@ -2,14 +2,17 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { Model, Schema, model, CallbackWithoutResultAndOptionalError} from 'mongoose';
 
-type UserSchemaType = {
+export type UserSchemaType = {
+    _id:string
     email: string, 
+    name:string, 
+    surname:string,
     password: string,
     confirmPassword:string,
-    newsletter: boolean,
     creationDate: number,
     passwordResetToken?: string,
     passwordResetExpires?: number,
+    avatar?:string,
     createPasswordResetToken: () =>Promise<string>
 }
 
@@ -20,20 +23,29 @@ const UserSchema = new Schema<UserSchemaType>({
         unique: true,
         minlength: 4
     },
+    name:{
+        type:String,
+        required: true,
+        minlength: 3,
+        maxLength: 12
+    },
+    surname:{
+        type:String,
+        required: true,
+        minlength: 3,
+        maxLength: 15
+    },
     password:{
         type: String,
         required: true,
         minlenght: 8,
+        select: false
     },
     confirmPassword:{
         type: String,
         required: true,
         select: false ,
         minlenght: 8,
-    },
-    newsletter:{
-        type:Boolean,
-        default: false
     },
     creationDate:{
        default: (new Date().getTime()),
@@ -44,6 +56,9 @@ const UserSchema = new Schema<UserSchemaType>({
     },
     passwordResetExpires: {
         type: Number
+    },
+    avatar:{
+        type:String
     }
 })
 
