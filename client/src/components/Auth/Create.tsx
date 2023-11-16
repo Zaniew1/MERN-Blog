@@ -7,27 +7,27 @@ export const Create:React.FC = ():JSX.Element => {
     const navigate = useNavigate();
     const {setloggedIn} = useContext(AuthContext);
     const [email, setEmail] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [surname, setSurname] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
     const Login = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault(); 
-        if(email === ""){
-            setError('Email jest wymagany');
-            return;
-          }
+        if(email === "") return setError('Email jest wymagany'); 
+        if(name === "") return setError('Imię jest wymagany'); 
+        if(surname === "") return setError('Nazwisko jest wymagane'); 
+        if(name.length > 12 || name.length<3 || surname.length > 15 || surname.length  < 3) return setError("Nazwisko i imię powinny mieć min 3 znaki i max 15 znaków ")
           if(!password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
-            setError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny");
-            return;
+            return setError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny");
           }
-
             const response = await fetch("http://localhost:3001/createNewUser", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password, confirmPassword}),
+                body: JSON.stringify({ name, surname, email, password, confirmPassword}),
                 credentials: 'include'
               })
               if (!response.ok) {
@@ -52,6 +52,10 @@ export const Create:React.FC = ():JSX.Element => {
         <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[35%] xl:w-[25%]">
             <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Stwórz użytkownika</p>
             <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={Login}>
+                <label className="text-[1em] font-semibold py-[5px]" htmlFor="name">Imię</label>
+                <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="name" id="name" type="text" onChange={(e)=>{setName(e.target.value); setError('');}} value={name} placeholder="Podaj imię" />  
+                <label className="text-[1em] font-semibold py-[5px]" htmlFor="surname">Nazwisko</label>
+                <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="surname" id="surname" type="text" onChange={(e)=>{setSurname(e.target.value); setError('');}} value={surname} placeholder="Podaj Nazwisko" />
                 <label className="text-[1em] font-semibold py-[5px]" htmlFor="email">Email</label>
                 <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="email" id="email" type="text" onChange={(e)=>{setEmail(e.target.value); setError('');}} value={email} placeholder="Podaj email" />
                 <label className="text-[1em] font-semibold py-[5px]" htmlFor="password">Hasło</label>
