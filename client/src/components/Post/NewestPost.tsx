@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import {useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useContext} from 'react';
 import { AuthContext } from '../../store/Auth-context';
 type NewestPostType = {
     key:number,
@@ -11,15 +11,20 @@ type NewestPostType = {
     content: string,
     mainPicture:string,
     contentCategory:string,
-    creator: string,
     creationDate:number,
-    creatorAvatar:string
+    creator: {
+        _id: string,
+        name: string,
+        surname:string,
+        email:string
+    },
+
 }
 export const NewestPost:React.FC<NewestPostType> = (props):JSX.Element =>{
     const navigator = useNavigate();
     const date = new Date(props.creationDate).toLocaleDateString();
     const {loggedIn, userData} = useContext(AuthContext);
-    const deletePost = async () => {
+    const deletePost = async () => { 
         const response = await fetch("http://localhost:3001/article/"+props.id, {
                 method: "DELETE",
                 headers: {
@@ -46,15 +51,15 @@ export const NewestPost:React.FC<NewestPostType> = (props):JSX.Element =>{
                             </div>
                         </div>
                         <div className=" w-[40%] ">
-                            <p className="text-[1em] font-bold text-[#2C3241]">{props.creator ? props.creator : "Mateusz Zaniewski"}</p>
+                            <p className="text-[1em] font-bold text-[#2C3241]">{props.creator.name+" "+props.creator.surname}</p>
                             <p className="text-[1.2em] font-thin tracking-wider text-gray-400">{date}</p>
                         </div>
-                    {userData.email == "m.zaniewski1995@gmail.com" && loggedIn &&
+                    {userData.id == props.creator._id && loggedIn &&
                         <div className=" w-[30%] flex text-[1.5em] text-[#2C3241]">
                             <a className="cursor-pointer" href={`/editPost/${props.id}`} ><FontAwesomeIcon icon={faPenToSquare} className="px-[20px] hover:text-slate-600"/></a>
                             <div className="cursor-pointer" onClick={deletePost} ><FontAwesomeIcon icon={faTrash} className="hover:text-slate-600"/></div>
                         </div>
-}
+                    }
                     </div>
                 </div>
                 <a href={`/${props.id}`} className="w-full aspect-square cursor-pointer border md:w-[50%] my-auto lg:ml-[15px] ">
