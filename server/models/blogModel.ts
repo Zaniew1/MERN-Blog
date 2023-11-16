@@ -1,4 +1,5 @@
 import { Model, Schema, model, } from 'mongoose';
+import UserModel from './userModel';
 export type BlogSchemaType = {
     title: string, 
     summary: string,
@@ -44,11 +45,10 @@ const BlogSchema = new Schema<BlogSchemaType>({
         type: Number,
     },
     creator:{
-        type:String,
+        type:Schema.Types.ObjectId,
+        ref: UserModel
     },
-    creatorAvatar:{
-        type: String,
-    },
+
  
 })
 
