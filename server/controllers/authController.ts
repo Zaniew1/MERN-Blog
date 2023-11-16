@@ -1,81 +1,55 @@
 import catchAsync from '../utils/catchAsync';
-import express from 'express';
-import jwt  from 'jsonwebtoken' ;
+import {Request, Response, NextFunction} from 'express';
 import UserModel from '../models/userModel'
 import  AppError from '../utils/appError';
-import  crypto from 'crypto';
 import Email from '../utils/email';
-import bcrypt from 'bcryptjs'
 import 'dotenv/config';
+import { createSendToken, comparePasswords, signToken} from '../helpers/helpers'
+import {UserSchemaType} from '../models/userModel'
+import crypto from 'crypto'
 
-const signToken = (id:number) => {
-    const jwtSecret = process.env.JWT_SECRET;
-    const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
-    if (!jwtSecret || !jwtExpiresIn) {
-        throw new Error('JWT_SECRET or JWT_EXPIRES_IN environment variables are not defined.');
+    interface AuthRequest extends Request {
+        user?: UserSchemaType;
     }
-    return jwt.sign({id}, jwtSecret, {
-        expiresIn: jwtExpiresIn
-    })
-}
-const createSendToken = (user:any, statusCode:number, req: express.Request, res: express.Response) => {
-    const token = signToken(user._id);
-    const numberOfDaysCookieExpires: string | undefined = process.env.JWT_COOKIE_EXPIRES_IN;
-    let expirationTime = 0;
-    if(numberOfDaysCookieExpires){
-        expirationTime  = parseInt(numberOfDaysCookieExpires) * (24 * 60 * 60 * 1000)
-    }else{
-        expirationTime = 2 * (24 * 60 * 60 * 1000)
-    }
-    res.cookie('jwt', token, {
-        expires: new Date(Date.now() + expirationTime),
-        httpOnly: true,
-        secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
-      });
-    // res.cookie('jwt', token).json('ok');
-    // Remove password from output
-    user.password = undefined;
-    res.status(statusCode).json({
-      status: 'success',
-      token,
-      data: user
-    });
-  };
+    export const getMe = catchAsync(async (req:AuthRequest, res:Response, next:NextFunction)=>{
+        const {name, surname, avatar, email} = await UserModel.findById(req.user?._id) as UserSchemaType
 
-export const comparePasswords = async function( typedPassword:string, databasePassword:string){
-    // this function compares two passwords, one password is hashed, one is not,
-    // comparizon is made by hashing first password and then comparing both hashed passwords
-    return await bcrypt.compare(typedPassword, databasePassword);
-}
-
-export const myProfile = catchAsync(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-    console.log(req.cookies)
-    const {token} = req.cookies;
-    if(process.env.JWT_SECRET){
-        jwt.verify(token, process.env.JWT_SECRET, {}, (err,info) => {
-            if (err) throw err;
-            res.json(info);
+        res.status(200).json({
+            status: 'success',
+            id: req.user?._id,
+            name,
+            surname,
+            email,
+            avatar
         });
-    }
-})
+  
+    })
 
-export const createNewUser = catchAsync( async (req: express.Request, res:express.Response, next: express.NextFunction) => {
-    const {email, password, confirmPassword} = req.body;
-    if(!email || !password){
-        return next(new AppError('There have to be email and password', 400));
+    type NewUserType = {
+        name:string,
+        surname:string,
+        email: string,
+        password:string, 
+        confirmPassword:string
     }
-    if(!password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
-        return next(new AppError('Password needs to contain min. 8 letters, 1 big letter, 1 small letter and 1 special character', 400));
-    }
-    if(password !== confirmPassword){
-        return next(new AppError("Passwords are not the same", 400));
-    }
-    // we check if email already exists
-    const user = await UserModel.findOne({email});
-    if(user){
+    export const createNewUser = catchAsync( async (req: Request, res:Response, next: NextFunction) => {
+        // validating data
+        const {name, surname, email, password, confirmPassword} = req.body as NewUserType;
+        if(!email || !password) return next(new AppError('There have to be email and password', 400));
+        if(!name || !surname) return next(new AppError('There have to be name and surname', 400));
+        if(!password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
+            return next(new AppError('Password needs to contain min. 8 letters, 1 big letter, 1 small letter and 1 special character', 400));
+        }
+        if(password !== confirmPassword) return next(new AppError("Passwords are not the same", 400));
+        
+        // we check if email already exists
+        const user = await UserModel.findOne({email});
+        if(user){
             return next(new AppError("There is user with that email already", 400));
         }
         const newUser = await UserModel.create({
+            name,
+            surname,
             email,
             password,
             confirmPassword
@@ -87,8 +61,8 @@ export const createNewUser = catchAsync( async (req: express.Request, res:expres
         await new Email(newUser, url).sendWelcome();
         createSendToken(newUser, 201, req, res);
     })
-    // działa
-export const loginUser = catchAsync(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
+
+    export const loginUser = catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
         const {email, password} = req.body;
         if(!email || !password){
             return next(new AppError('There have to be email and password', 400));
@@ -106,14 +80,17 @@ export const loginUser = catchAsync(async (req:express.Request, res:express.Resp
         }
         createSendToken(user, 200, req, res);
     })
-    //działa
-    export const logoutUser = catchAsync(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-        res.cookie('jwt', '', {});
+
+    export const logoutUser = catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
+        req.cookies = ''
+        res.cookie('jwt', 'loggedout', {
+            expires: new Date(Date.now() + 10 * 1000),
+            httpOnly: true
+        });
         res.status(200).json({ status: 'success' });
     })
 
- 
-    export const forgetPassword = catchAsync( async (req: express.Request, res: express.Response, next:express.NextFunction)=>{
+    export const forgetPassword = catchAsync( async (req: Request, res: Response, next:NextFunction)=>{
         // find an account with that email
         const user = await UserModel.findOne({email:req.body.email})
         // check if this account exists
@@ -140,7 +117,7 @@ export const loginUser = catchAsync(async (req:express.Request, res:express.Resp
             return next(new AppError('No reset token sent', 500));
         }
     });
-    export const changePassword = catchAsync(async (req: express.Request, res: express.Response, next:express.NextFunction) =>{
+    export const changePassword = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
         const {oldPass, newPass, confirmNewPass, email} = req.body
         // const hashedNewPass = crypto.createHash('sha256').update(newPass).digest('hex');
         const user = await UserModel.findOne({email}).select('+password');
@@ -157,15 +134,25 @@ export const loginUser = catchAsync(async (req:express.Request, res:express.Resp
         })
     })
 
-    export const subscribeNewsletter = catchAsync(async (req: express.Request, res: express.Response, next:express.NextFunction) =>{
-
-
-        res.status(200).json({
-            status: 'success',
-        })
+    export const editUser = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
+        const {id, name, surname} = req.body;
+        if(!name || !surname) return next(new AppError("Imię i nazwisko jest wymagane",400))
+        if(name.langth < 3 || surname.langth < 3) return next(new AppError("Imię i nazwisko musi mieć przynajmniej 3 znaki",400))
+        if(name.langth > 12 || surname.langth > 15) return next(new AppError("Imię musi mieć max 12 znaków a nazwisko max 15",400))
+        const user = await UserModel.findByIdAndUpdate(id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        if(!user){return next(new AppError('There is no such user', 404))}
+        else{
+            res.status(200).json({
+                status: 'successfully edited',
+                user
+            });
+        }   
     })
 
-    export const resetPassword = catchAsync(async (req: express.Request, res: express.Response, next:express.NextFunction) =>{
+    export const resetPassword = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
         const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
         const user =  await UserModel.findOne({passwordResetToken: hashedToken, passwordResetExpires: {$gt:Date.now()}})
         if(!user) return next(new AppError('User not found', 404))
