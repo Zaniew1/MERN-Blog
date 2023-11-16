@@ -4,7 +4,9 @@ import { Popup } from '../Utilities/Popup';
 import { useContext } from "react";
 import {AuthContext} from '../../store/Auth-context'
 type UserDataType = {
-  _id:string,
+  id:string,
+  name: string,
+  surname:string,
   email:string,
   creationDate:number,
   newsletter:boolean
@@ -52,7 +54,7 @@ export const Login:React.FC = ():JSX.Element => {
                 }, 1000)
               }
             const user: dataType = await response.json();
-            console.log(user)
+            document.cookie = user.token as string;
             setUserData(user.data as UserDataType);
     }
     
