@@ -10,12 +10,12 @@ import blogRouter from './routes/blogRoutes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(express.json());
 app.use(cors({credentials: true, origin:'http://localhost:5173'}));
+app.use(express.json());
+app.use(cookieParser());
 app.options('*', cors());
 app.use('/', userRouter);
 app.use('/article', blogRouter);
-app.use(cookieParser());
 
 // Creating server
 app.use("/images", express.static(__dirname + '/images'));
