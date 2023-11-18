@@ -1,45 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { getCookie } from "../utils/cookies";
- type AuthContextType = {
-    loggedIn: boolean,
-    setloggedIn: (logged: boolean) => void,
-    userData: UserDataType,
-    setUserData: (data: UserDataType) => void
-  }
- type ContextPropsType = {
-    children: React.ReactNode
-  }
- type UserDataType = {
-        id:string,
-        email:string,
-        name:string,
-        surname:string,
-        avatar?:string
-  }
+import {UserType, AuthContextType,ContextPropsType, emptyUserType } from '../types/blogTypes'
 
 export const AuthContext = React.createContext<AuthContextType>({
     loggedIn: false,
     setloggedIn: () => {false},
-    userData:{
-      id:"",
-      email:"",
-      name:"",
-      surname:"",
-      avatar: "",
-    },
+    userData: emptyUserType,
     setUserData: () => {}
   });
 
 
 export const AuthContextProvider = (props: ContextPropsType) => {
   const [loggedIn, setloggedIn] = useState<boolean>(false);
-  const [userData, setUserData] = useState<UserDataType>({
-    id:"",
-    email:"",
-    name:"",
-    surname:"",
-    avatar: "",
-  });
+  const [userData, setUserData] = useState<UserType>(emptyUserType);
 
   useEffect(()=>{
     const fetchUserData = async ()=>{
@@ -57,12 +30,13 @@ export const AuthContextProvider = (props: ContextPropsType) => {
       if(user.status == 'success'){
         setloggedIn(true)
         const {id, email, name, surname, avatar} = user
-        setUserData({id, email, name, surname, avatar} as UserDataType);
+        setUserData({id, email, name, surname, avatar} as UserType);
       }
     }
     fetchUserData();
-
   },[])
+
+  
   return (
     <AuthContext.Provider
       value={{
