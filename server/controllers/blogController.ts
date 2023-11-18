@@ -5,28 +5,28 @@ import  AppError from '../utils/appError';
 import BlogModel from '../models/blogModel';
 import {BlogSchemaType} from '../models/blogModel';
 import 'dotenv/config';
+import UserModel from '../models/userModel';
 
 export const createNewArticle: RequestHandler = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
-    let {title, summary, content,  contentCategory} = req.body as BlogSchemaType;
+    let {title, summary, content,  contentCategory, creator, mainPicture} = req.body as BlogSchemaType;
     if(!title  || !summary || !content  || !contentCategory ){
         return next(new AppError('There are not enough information provided', 400));
     }
     if(title.length < 8 || title.length > 100){
-        return next(new AppError('Length of the title should be between 10 and 100 chars', 404));
+        return next(new AppError('Length of the title should be between 10 and 100 chars', 400));
     }
     if(summary.length < 8 || summary.length > 150){
-        return next(new AppError('Length of the summary should be between 10 and 150 chars', 404));
+        return next(new AppError('Length of the summary should be between 10 and 150 chars', 400));
     }
     if(content.length < 10 || content.length > 10000){
-        return next(new AppError('Length of the content should be between 10 and 10000 chars', 404));
+        return next(new AppError('Length of the content should be between 10 and 10000 chars', 400));
     }
     if(contentCategory.length < 4 || contentCategory.length > 50){
-        return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 404));
+        return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 400));
     }
-    if(req.file ){
-      req.body.mainPicture = (req.file as Express.Multer.File).path
-    }
-    const newPost = await BlogModel.create(req.body);
+    if(!mainPicture) return next(new AppError("There has to be main picture", 400))
+  
+    const newPost = await BlogModel.create( {title, summary, content, contentCategory, mainPicture, creator});
     res.status(201).json({
         status: "success",
         data:{
@@ -59,17 +59,16 @@ export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:R
     if(summary.length < 8 || summary.length > 150){
         return next(new AppError('Length of the summary should be between 10 and 150 chars', 404));
     }
-    if(content.length < 10 || content.length > 10000){
-        return next(new AppError('Length of the content should be between 10 and 10000 chars', 404));
+    if(content.length < 100 ){
+        return next(new AppError('Length of the content should be min 100 chars', 404));
     }
     if(contentCategory.length < 4 || contentCategory.length > 50){
         return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 404));
     }
-    if(req.file ){
-        req.body.mainPicture = (req.file as Express.Multer.File).path
-      }
-
-
+    const oldPost = await BlogModel.findOne({ _id: id });
+    // if user didint upload new picture, then assign old photo
+    if(oldPost && mainPicture == ""){req.body.mainPicture = oldPost.mainPicture}
+    
     const post = await BlogModel.findByIdAndUpdate(id, req.body, {
         new: true,
         runValidators: true
