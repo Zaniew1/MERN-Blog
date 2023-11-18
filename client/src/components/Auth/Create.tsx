@@ -1,57 +1,20 @@
 import { useState} from 'react';
-import { useNavigate } from 'react-router-dom'
 import { Popup } from '../Utilities/Popup';
-import { useContext } from "react";
-import {AuthContext} from '../../store/Auth-context'
+import { useCreateUser } from '../../customHooks/Users/useCreateUser';
 export const Create:React.FC = ():JSX.Element => {
-    const navigate = useNavigate();
-    const {setloggedIn} = useContext(AuthContext);
-    const [email, setEmail] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [surname, setSurname] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
-    const [success, setSuccess] = useState<string>('');
-    const Login = async (e: React.FormEvent<HTMLFormElement>) =>{
-        e.preventDefault(); 
-        if(email === "") return setError('Email jest wymagany'); 
-        if(name === "") return setError('Imię jest wymagany'); 
-        if(surname === "") return setError('Nazwisko jest wymagane'); 
-        if(name.length > 12 || name.length<3 || surname.length > 15 || surname.length  < 3) return setError("Nazwisko i imię powinny mieć min 3 znaki i max 15 znaków ")
-          if(!password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
-            return setError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny");
-          }
-            const response = await fetch("http://localhost:3001/createNewUser", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, surname, email, password, confirmPassword}),
-                credentials: 'include'
-              })
-              if (!response.ok) {
-                const message = `An error has occured: ${response.status}`;
-                setError(message);
-              }
-              else{
-                setloggedIn(true);
-                setSuccess('Udało się stworzyć użytkownika!');
-                setTimeout(()=>{
-                  navigate('/');
-                },1000)
-              }
-            const user = await response.json();
-            console.log(user)
-    }
-    
-    
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const {error, success, setError, createUser} =useCreateUser({email, name, surname, password, confirmPassword})
     return (
       <>
         {success && <Popup type={'success'} text={success}/>}
+        {error && <Popup type={'error'} text={error}/>}
         <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[35%] xl:w-[25%]">
             <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Stwórz użytkownika</p>
-            <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={Login}>
+            <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={createUser}>
                 <label className="text-[1em] font-semibold py-[5px]" htmlFor="name">Imię</label>
                 <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="name" id="name" type="text" onChange={(e)=>{setName(e.target.value); setError('');}} value={name} placeholder="Podaj imię" />  
                 <label className="text-[1em] font-semibold py-[5px]" htmlFor="surname">Nazwisko</label>

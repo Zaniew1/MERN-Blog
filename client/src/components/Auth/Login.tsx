@@ -1,71 +1,18 @@
 import { useState} from 'react';
-import { useNavigate } from 'react-router-dom'
 import { Popup } from '../Utilities/Popup';
-import { useContext } from "react";
-import {AuthContext} from '../../store/Auth-context'
-type UserDataType = {
-  id:string,
-  name: string,
-  surname:string,
-  email:string,
-  creationDate:number,
-  newsletter:boolean
-}
-
-type dataType = {
-  data: UserDataType,
-  status:string,
-  token: string
-}
+import { useLoginUser } from '../../customHooks/Users/useLoginUser';
 
 export const Login:React.FC = ():JSX.Element => {
-
-    const navigate = useNavigate();
-    const {setloggedIn, setUserData} = useContext(AuthContext);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
-    const [success, setSuccess] = useState<string>('');
-    const Login = async (e: React.FormEvent<HTMLFormElement>) =>{
-        e.preventDefault(); 
-        if(email === ""){
-            setError('Email jest wymagany');
-            return;
-          }
-          if(!password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
-            setError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny");
-            return;
-          }
-            const response = await fetch("http://localhost:3001/loginUser", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-                credentials: 'include'
-              })
-              if (!response.ok) {
-                setError("Logowanie nie udane!");
-              }else{
-                setloggedIn(true);
-                setSuccess("Udało się zalogować!");
-                setTimeout(()=>{
-                  navigate('/');
-                }, 1000)
-              }
-            const user: dataType = await response.json();
-            document.cookie = user.token as string;
-            setUserData(user.data as UserDataType);
-    }
-    
-    
+    const {error,setError,  success, LoginUser} = useLoginUser({email, password})
     return (
       <>
             {success && <Popup type="success" text={success}/>}
             {error && <Popup type="error" text={error}/>}
             <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[70%] lg:w-[45%] xl:w-[35%]">
                 <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Zaloguj się</p>
-                <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={Login}>
+                <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={LoginUser}>
                     <label className="text-[1em] font-semibold py-[5px]" htmlFor="email">Email</label>
                     <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="email" id="email" type="text" onChange={(e)=>{setEmail(e.target.value); setError('');}} value={email} placeholder="Podaj email" />
                     <label className="text-[1em] font-semibold py-[5px]" htmlFor="password">Hasło</label>

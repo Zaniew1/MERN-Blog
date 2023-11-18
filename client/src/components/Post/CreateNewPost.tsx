@@ -1,63 +1,16 @@
 import { ContainerCard } from "../Utilities/ContainerCard";
 import {useState} from 'react';
-import { useNavigate } from 'react-router-dom'
 import { Popup } from '../Utilities/Popup';
 import {Editor} from '../Utilities/Editor'
+import { useCreateNewPost} from "../../customHooks/Posts/useCreateNewPost";
+
 export const CreateNewPost:React.FC = ():JSX.Element => {
-    const navigate = useNavigate();
     const [title, setTitle] = useState<string>('');
     const [summary, setSummary] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [contentCategory, setContentCategory] = useState<string>('');
     const [mainPicture, setMainPicture] = useState<File | null>(null);
-    const [creatorAvatar, setCreatorAvatar] = useState<string>('');
-    const [creator, setCreator] = useState<string>('');
-    const [error , setError] = useState<string>('');
-    const [success , setSuccess] = useState<string>('');
-    const createNewPost = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if(title.length < 8 || title.length > 100 ){
-            setError("Długość tytułu powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        else if(summary.length < 8 || summary.length > 150 ){
-            setError("Długość podsumowania powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        else if(content.length < 100 || content.length > 10000 ){
-            setError("Długość zawartości artykułu powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        else if(contentCategory.length < 4 || contentCategory.length > 50 ){
-            setError("Długość kategorii tytułu powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        setCreatorAvatar('ja');
-        setCreator('Mateusz Zaniewski');
-        const data = new FormData();
-        data.set('title', title);
-        data.set('summary', summary);
-        data.set('content', content);
-        data.set('contentCategory', contentCategory);
-        data.set('mainPicture', mainPicture ?? "");
-        data.set('creatorAvatar', creatorAvatar);
-        data.set('creator', creator);
-        const response = await fetch("http://localhost:3001/article", {
-            method: "POST",
-            body: data
-          });
-          console.log(response)
-          console.log(await response.json())
-          if (!response.ok) {
-            setError("Nie udało się dodać artykułu. Spróbuj ponownie później!");
-          }else{
-            setSuccess("Udało się stworzyć artykuł!");
-            setTimeout(()=>{
-              navigate('/');
-            }, 2000)
-          }
-    }
-
+    const {success, error, setError, createNewPost} = useCreateNewPost({title, summary, content, mainPicture, contentCategory});
     return (
         <ContainerCard>
             {success && <Popup type="success" text={success}/>}

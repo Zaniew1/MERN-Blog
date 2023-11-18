@@ -2,44 +2,21 @@ import { useState} from 'react';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../store/Auth-context';
 import { Popup } from '../Utilities/Popup';
-import { useNavigate } from 'react-router-dom';
+import { useEditUser } from '../../customHooks/Users/useEditUser';
 export const Me:React.FC = ():JSX.Element => {
     const {loggedIn, userData} = useContext(AuthContext);
-    const [id, setId] = useState<string>(userData.id);
-    const [avatar, setAvatar] = useState<string>('');
+    const [id, setId] = useState<string>(`${userData.id}`);
+    const [avatar, setAvatar] = useState<File | null>(null);
     const [name, setName] = useState<string>(userData.name);
     const [surname, setSurname] = useState<string>(userData.surname);
-    const [success, setSuccess] = useState<string>('');
-    const [error, setError] = useState<string>('');
-    const navigate = useNavigate();
+
     useEffect(()=>{
-        setId(userData.id);
-        // setAvatar(userData.avatar)
+        setId(`${userData.id}`);
         setName(userData.name)
         setSurname(userData.surname)
     },[userData])
-    const sendNewUserInfo = async (e: React.FormEvent<HTMLFormElement>) =>{
-        e.preventDefault();
-        const response = await fetch("http://localhost:3001/editUser", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({id, name, surname, avatar }),
-              })
-              if (!response.ok) {
-                setError("Edycja nie udana, spróbuj ponownie później!");
-              }else{
-                setSuccess("Udało się edytować użytkownika!");
-                setTimeout(()=>{
-                  navigate('/');
-                }, 1000)
-              }
-            const user = await response.json();
-              
-        console.log(user)
-        console.log(error)
-    }
+    
+    const {error, setError, success, editUser} = useEditUser({id, name, surname, avatar})
     return (
         <>
             {success && <Popup type="success" text={success}/>}
@@ -47,10 +24,10 @@ export const Me:React.FC = ():JSX.Element => {
             { loggedIn && 
             <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[65%] xl:w-[55%]">
                     <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Edycja ustawień</p>
-                    <img className="mt-[15px] w-[100px] h-[100px] rounded-[50%] md:w-[120px] md:h-[120px]" src={`http://localhost:3001/images/ja.jpg`}/>
-                    <form className="w-[70%] flex flex-col justify-center itmes-center mt-[20px]" onSubmit={sendNewUserInfo} >
+                    <img className="mt-[15px] w-[100px] h-[100px] rounded-[50%] md:w-[120px] md:h-[120px]" src={`http://localhost:3001/images/users/${userData.avatar}`}/>
+                    <form className="w-[70%] flex flex-col justify-center itmes-center mt-[20px]" onSubmit={editUser} >
                         <label className="text-[1em] font-semibold py-[5px]" htmlFor="picture">Zdjęcie profilowe</label>
-                        <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="picture" id="picture" type="file" onChange={(e)=>{setAvatar(e.target.value); setError('');}} value={avatar} placeholder="Wgraj zdjęcie" />
+                        <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="avatar" id="picture" type="file" onChange={(e)=>{e.target.files && e.target.files.length > 0 ? setAvatar(e.target.files[0]) : setError('Można załadować tylko jedno zdjęcie');}} placeholder="Wgraj zdjęcie" />
                         <label className="text-[1em] font-semibold py-[5px]" htmlFor="password">Imię</label>
                         <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" id="password" onChange={(e)=>{setName(e.target.value);  setError('');}} value={name} type="text" placeholder="Twoje imię" />
                         <label className="text-[1em] font-semibold py-[5px]" htmlFor="confirmPassword">Nazwisko</label>

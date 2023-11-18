@@ -1,85 +1,29 @@
 import { ContainerCard } from "../Utilities/ContainerCard";
-import {useState, useEffect} from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
+import {useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom'
 import { Popup } from '../Utilities/Popup';
 import {Editor} from '../Utilities/Editor'
+import { useGetOnePost } from "../../customHooks/Posts/useGetOnePost";
+import { useEditPost } from "../../customHooks/Posts/useEditPost";
 export const EditPost:React.FC = ():JSX.Element => {
-    const navigate = useNavigate();
     const [title, setTitle] = useState<string>('');
     const [summary, setSummary] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [contentCategory, setContentCategory] = useState<string>('');
     const [mainPicture, setMainPicture] = useState<File | null>(null);
-    const [creatorAvatar, setCreatorAvatar] = useState<string>('');
-    const [creator, setCreator] = useState<string>('');
-    const [error , setError] = useState<string>('');
-    const [success , setSuccess] = useState<string>('');
     const {id} = useParams();
 
+    const {data, setError} = useGetOnePost(id as string);
+    const {error, success, editPost} = useEditPost(id as string, {title, summary, content, contentCategory, mainPicture})
+    console.log(data)
     useEffect(()=>{
-        const edit = async () =>{
-            const response = await fetch("http://localhost:3001/article/"+id, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data.post)
-                setTitle(data.post.title);
-                setSummary(data.post.summary);
-                setContent(data.post.content);
-                setContentCategory(data.post.contentCategory);
-            }
-        }
-        edit();
-    }, [id])
-
-
-    const editPost = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if(title.length < 8 || title.length > 100 ){
-            setError("Długość tytułu powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        else if(summary.length < 8 || summary.length > 150 ){
-            setError("Długość podsumowania powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        else if(content.length < 100 || content.length > 10000 ){
-            setError("Długość zawartości artykułu powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        else if(contentCategory.length < 4 || contentCategory.length > 50 ){
-            setError("Długość kategorii tytułu powinna wynosić od 8 do 100 znaków");
-            return;
-        }
-        setCreatorAvatar('ja');
-        setCreator('Mateusz Zaniewski');
-        const data = new FormData();
-        data.set('title', title);
-        data.set('summary', summary);
-        data.set('content', content);
-        data.set('contentCategory', contentCategory);
-        data.set('mainPicture', mainPicture ?? "");
-        data.set('creatorAvatar', creatorAvatar);
-        data.set('creator', creator);
-        const response = await fetch("http://localhost:3001/article/"+id, {
-            method: "PUT",
-            body: data
-          });
-          console.log(response)
-          console.log(await response.json())
-          if (!response.ok) {
-            setError("Nie udało się edytować artykułu. Spróbuj ponownie później!");
-          }else{
-            setSuccess("Udało się edytować artykuł!");
-            setTimeout(()=>{
-              navigate('/');
-            }, 2000)
-          }
-    }
+        setTitle(data.title)
+        setSummary(data.summary)
+        setContent(data.content)
+        setContentCategory(data.contentCategory)
+        // setMainPicture(data.mainPicture)
+    },[data])
+    
 
     return (
         <ContainerCard>
