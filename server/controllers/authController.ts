@@ -1,5 +1,5 @@
 import catchAsync from '../utils/catchAsync';
-import {Request, Response, NextFunction} from 'express';
+import {Request, Response, NextFunction, RequestHandler} from 'express';
 import UserModel from '../models/userModel'
 import  AppError from '../utils/appError';
 import Email from '../utils/email';
@@ -13,7 +13,6 @@ import crypto from 'crypto'
     }
     export const getMe = catchAsync(async (req:AuthRequest, res:Response, next:NextFunction)=>{
         const {name, surname, avatar, email} = await UserModel.findById(req.user?._id) as UserSchemaType
-
         res.status(200).json({
             status: 'success',
             id: req.user?._id,
@@ -110,7 +109,6 @@ import crypto from 'crypto'
             })
         }
         catch(err){
-            console.log(err)
             user.passwordResetToken = undefined;
             user.passwordResetExpires = undefined;
             await user.save({validateBeforeSave : false});
@@ -133,16 +131,26 @@ import crypto from 'crypto'
             status: 'success',
         })
     })
-
-    export const editUser = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
-        const {id, name, surname} = req.body;
+    export type EditUserType = {
+        id: string,
+        avatar: string
+        name:string,
+        surname: string
+    }
+    export const editUser: RequestHandler = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
+        const {id, name, surname, avatar} = req.body as EditUserType;
         if(!name || !surname) return next(new AppError("Imię i nazwisko jest wymagane",400))
-        if(name.langth < 3 || surname.langth < 3) return next(new AppError("Imię i nazwisko musi mieć przynajmniej 3 znaki",400))
-        if(name.langth > 12 || surname.langth > 15) return next(new AppError("Imię musi mieć max 12 znaków a nazwisko max 15",400))
+        if(name.length < 3 || surname.length < 3) return next(new AppError("Imię i nazwisko musi mieć przynajmniej 3 znaki",400))
+        if(name.length > 12 || surname.length > 15) return next(new AppError("Imię musi mieć max 12 znaków a nazwisko max 15",400))
+        const oldUser = await UserModel.findOne({ _id: id });
+        // if user didint upload new picture, then assign old photo
+        if(oldUser && avatar == ""){req.body.avatar = oldUser.avatar}
         const user = await UserModel.findByIdAndUpdate(id, req.body, {
             new: true,
             runValidators: true
         });
+
+
         if(!user){return next(new AppError('There is no such user', 404))}
         else{
             res.status(200).json({
