@@ -28,7 +28,6 @@ const BlogSchema = new Schema<BlogSchemaType>({
         type:String,
         required: true,
         minlength: 100,
-        maxlength: 10000,
     },
     contentCategory:{
         required: true,
@@ -37,7 +36,6 @@ const BlogSchema = new Schema<BlogSchemaType>({
         maxlength: 50,
     },
     mainPicture:{
-        required: true,
         type: String
     },
     creationDate:{
