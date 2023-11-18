@@ -8,7 +8,7 @@ export const useGetOnePost = (id:string) => {
         const fetchData = async () =>{
             setLoading(true)
             try{
-                const response = await fetch("http://localhost:3001/article"+id, {
+                const response = await fetch("http://localhost:3001/article/"+id, {
                     method: "GET",
                     headers: {
                     "Content-Type": "application/json",
@@ -28,5 +28,5 @@ export const useGetOnePost = (id:string) => {
     }
     fetchData();
         },[id])
-    return {data, error, loading};
+    return {data, error, setError, loading};
 }
