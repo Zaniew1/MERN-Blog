@@ -1,15 +1,6 @@
 import { Model, Schema, model, } from 'mongoose';
 import UserModel from './userModel';
-export type BlogSchemaType = {
-    title: string, 
-    summary: string,
-    content:string,
-    contentCategory:string,
-    mainPicture: string,
-    creationDate?: number,
-    creator?:string,
-    creatorAvatar?: string,
-}
+import { BlogSchemaType } from '../types/blogTypes';
 
 const BlogSchema = new Schema<BlogSchemaType>({
     title:{
@@ -45,9 +36,7 @@ const BlogSchema = new Schema<BlogSchemaType>({
     creator:{
         type:Schema.Types.ObjectId,
         ref: UserModel
-    },
-
- 
+    }
 })
 
 const BlogModel: Model<BlogSchemaType> = model("Blog", BlogSchema);

@@ -3,9 +3,8 @@ import catchAsync from '../utils/catchAsync';
 import  { RequestHandler,Request, Response, NextFunction } from 'express';
 import  AppError from '../utils/appError';
 import BlogModel from '../models/blogModel';
-import {BlogSchemaType} from '../models/blogModel';
+import { BlogSchemaType } from '../types/blogTypes';
 import 'dotenv/config';
-import UserModel from '../models/userModel';
 
 export const createNewArticle: RequestHandler = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
     let {title, summary, content,  contentCategory, creator, mainPicture} = req.body as BlogSchemaType;
@@ -25,7 +24,6 @@ export const createNewArticle: RequestHandler = catchAsync( async (req:Request, 
         return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 400));
     }
     if(!mainPicture) return next(new AppError("There has to be main picture", 400))
-  
     const newPost = await BlogModel.create( {title, summary, content, contentCategory, mainPicture, creator});
     res.status(201).json({
         status: "success",
@@ -36,20 +34,16 @@ export const createNewArticle: RequestHandler = catchAsync( async (req:Request, 
 })
 
 export const deleteArticle: RequestHandler<{id:string}> = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
-    const post = await BlogModel.findByIdAndDelete(req.params.id);
-    if(!post){
-        return next(new AppError('There is no such post', 404));
-    }
+    const post = await BlogModel.findByIdAndDelete(req.params.id as string);
+    if(!post) return next(new AppError('There is no such post', 404));
     res.status(200).json({
       status: 'successfully deleted',
     });
-
-
 })
 
 export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
-    const id = req.params.id;
-    let {title, summary, content,  contentCategory, mainPicture, creator} = req.body as BlogSchemaType;
+    const id = req.params.id as string;
+    let {title, summary, content,  contentCategory, mainPicture} = req.body as BlogSchemaType;
     if(!title  || !summary || !content  || !contentCategory ){
         return next(new AppError('There are not enough information provided', 400));
     }
@@ -66,6 +60,7 @@ export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:R
         return next(new AppError('Length of the contentCategory should be between 4 and 50  chars', 404));
     }
     const oldPost = await BlogModel.findOne({ _id: id });
+    if(!oldPost) return next(new AppError('You cant edit not existing post', 404));
     // if user didint upload new picture, then assign old photo
     if(oldPost && mainPicture == ""){req.body.mainPicture = oldPost.mainPicture}
     
@@ -73,20 +68,17 @@ export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:R
         new: true,
         runValidators: true
     });
-    if(!post){
-        return next(new AppError('There is no such post', 404));
-    }
+    if(!post) return next(new AppError('There is no such post', 404));
     else{
         res.status(200).json({
             status: 'successfully edited',
             post
         });
     }           
-
 })
 
 export const getAllArticles: RequestHandler = catchAsync( async (req: Request, res: Response, next:  NextFunction) => {
-    const posts = await BlogModel.find().populate('creator', ['name', 'surname', 'email']);
+    const posts = await BlogModel.find().populate('creator', ['name', 'surname', 'email', 'avatar']);
     res.status(200).json({
         status: 'success',
         posts
@@ -94,11 +86,8 @@ export const getAllArticles: RequestHandler = catchAsync( async (req: Request, r
 })
 
 export const getArticle: RequestHandler<{id:string}> = catchAsync( async (req: Request, res: Response, next:  NextFunction) => {
-    const post = await BlogModel.findById(req.params.id).populate('creator', ['name', 'surname', 'email']);
-    
-    if(!post){
-        return next(new AppError('There is no such post', 404));
-    }
+    const post = await BlogModel.findById(req.params.id).populate('creator', ['name', 'surname', 'email','avatar']);
+    if(!post)return next(new AppError('There is no such post', 404));
     res.status(200).json({
         status: "success",
         post

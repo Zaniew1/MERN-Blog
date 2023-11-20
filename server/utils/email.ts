@@ -1,21 +1,44 @@
 import nodemailer from 'nodemailer';
-// require('dotenv').config();
+import 'dotenv/config';
 import fs from 'fs';
 import {convert}  from 'html-to-text';
+import { BlogSchemaType } from '../types/blogTypes';
 type UserType = {
     email:string,
 }
-export default class  Email{
+type ResetCardData = {
+  // Define the properties you want to pass to the template
+  resetToken?: string;
+  name?: string;
+  title?: BlogSchemaType
+};
+export default class Email{
    private to:string
-   private url: string
+   private data: ResetCardData
    private from: string
    
-  constructor(user:UserType, url:string){
+  constructor(user:UserType, data:{}){
     this.to = user.email;
-    this.url = url;
+    this.data = data;
     this.from = `zaniew123@wp.pl`;
   }
-  
+  private populateTemplate(html: string, data:ResetCardData) {
+    // Replace placeholders in the HTML with actual data
+    // For example, assuming there is a placeholder '{{resetToken}}' in your HTML
+    let populatedHtml;
+    const dataPass = this.data;
+    if(dataPass?.resetToken){
+      populatedHtml = html.replace('{{resetURL}}', dataPass?.resetToken);
+    }
+    if(dataPass?.name){
+      populatedHtml = html.replace('{{name}}', dataPass?.name);
+    }
+    if(dataPass?.title){
+      // populatedHtml = html.replace('{{title}}', dataPass?.title);
+
+    }
+    return populatedHtml;
+  }
   newTransport(){
     return nodemailer.createTransport({
       host: 'smtp.sendgrid.net',
@@ -27,14 +50,16 @@ export default class  Email{
       }
     })
   }
-  async send(template:string, subject:string){
+  async send(template:string, subject:string, dataToPass:{}){
     try{
-      const html = fs.readFileSync(`./views/${template}.html`, 'utf-8');
+      let newData = this.data
+      let html = fs.readFileSync(`./views/${template}.html`, 'utf-8');
+      const populatedHtml = newData ? this.populateTemplate(html, newData) : html
       const mailOptions = {
       from: this.from,
       to: this.to,
       subject,
-      html: html,
+      html: populatedHtml,
       text: convert(html)
     }
     await this.newTransport().sendMail(mailOptions)
@@ -42,12 +67,15 @@ export default class  Email{
 
   }
   async sendWelcome(){
-    await this.send('WelcomeCard', 'Welcome in my application')
+    let newData = this.data
+    await this.send('WelcomeCard', 'Welcome in my application', { newData })
   }
   async sendPasswordReset() {
-    await this.send(
-      'ResetCard',
-      'Your password reset token (valid for only 10 minutes)'
-    );
+    let newData = this.data
+    await this.send('ResetCard', 'Your password reset token (valid for only 10 minutes)', { newData });
+  }
+  async sendNewsletter(){
+    let newData = this.data
+    await this.send('Newsletter', 'Hi, new post has appear, check it out!', { newData });
   }
 }

@@ -5,12 +5,9 @@ import  AppError from '../utils/appError';
 import Email from '../utils/email';
 import 'dotenv/config';
 import { createSendToken, comparePasswords, signToken} from '../helpers/helpers'
-import {UserSchemaType} from '../models/userModel'
 import crypto from 'crypto'
+import { EditUserType, AuthRequest, NewUserType,UserSchemaType, LoginUserType, ChangePasswordType } from '../types/blogTypes';
 
-    interface AuthRequest extends Request {
-        user?: UserSchemaType;
-    }
     export const getMe = catchAsync(async (req:AuthRequest, res:Response, next:NextFunction)=>{
         const {name, surname, avatar, email} = await UserModel.findById(req.user?._id) as UserSchemaType
         res.status(200).json({
@@ -24,14 +21,8 @@ import crypto from 'crypto'
   
     })
 
-    type NewUserType = {
-        name:string,
-        surname:string,
-        email: string,
-        password:string, 
-        confirmPassword:string
-    }
-    export const createNewUser = catchAsync( async (req: Request, res:Response, next: NextFunction) => {
+
+    export const createNewUser:RequestHandler = catchAsync( async (req: Request, res:Response, next: NextFunction) => {
         // validating data
         const {name, surname, email, password, confirmPassword} = req.body as NewUserType;
         if(!email || !password) return next(new AppError('There have to be email and password', 400));
@@ -51,18 +42,18 @@ import crypto from 'crypto'
             surname,
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            avatar: "user.jpg"
         });
-        // we create a token by giving it user id we just created , and secret key  created by us and stored in .env file
-        // we also set algorithm and expire date after which token will become useless
         const url = `${req.protocol}://${req.get('host')}/`;
         // we send email with welcome Card component as welcome message
         await new Email(newUser, url).sendWelcome();
+        // create jwt token
         createSendToken(newUser, 201, req, res);
     })
 
-    export const loginUser = catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
-        const {email, password} = req.body;
+    export const loginUser:RequestHandler = catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
+        const {email, password} = req.body as LoginUserType;
         if(!email || !password){
             return next(new AppError('There have to be email and password', 400));
         }
@@ -89,19 +80,17 @@ import crypto from 'crypto'
         res.status(200).json({ status: 'success' });
     })
 
-    export const forgetPassword = catchAsync( async (req: Request, res: Response, next:NextFunction)=>{
+    export const forgetPassword:RequestHandler = catchAsync( async (req: Request, res: Response, next:NextFunction)=>{
         // find an account with that email
-        const user = await UserModel.findOne({email:req.body.email})
+        const user = await UserModel.findOne({email:req.body.email as string})
         // check if this account exists
         if(!user) return next( new AppError('Użytkownik nie znaleziony', 404));
-        
         const resetToken = user.createPasswordResetToken();
         // we turn off any validation in UserSchema
         await user.save({validateBeforeSave: false});
-        
         try{
-        const resetURL = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`;
-        await new Email(user, resetURL).sendPasswordReset();
+            const resetURL = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`;
+            await new Email(user, resetURL).sendPasswordReset();
             res.status(200).json({
                 status: 'success',
                 message: 'Token sent to email !',
@@ -115,8 +104,8 @@ import crypto from 'crypto'
             return next(new AppError('No reset token sent', 500));
         }
     });
-    export const changePassword = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
-        const {oldPass, newPass, confirmNewPass, email} = req.body
+    export const changePassword:RequestHandler = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
+        const {oldPass, newPass, confirmNewPass, email} = req.body as ChangePasswordType
         // const hashedNewPass = crypto.createHash('sha256').update(newPass).digest('hex');
         const user = await UserModel.findOne({email}).select('+password');
         if(!user) return next(new AppError('User not found', 404));
@@ -131,12 +120,7 @@ import crypto from 'crypto'
             status: 'success',
         })
     })
-    export type EditUserType = {
-        id: string,
-        avatar: string
-        name:string,
-        surname: string
-    }
+
     export const editUser: RequestHandler = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
         const {id, name, surname, avatar} = req.body as EditUserType;
         if(!name || !surname) return next(new AppError("Imię i nazwisko jest wymagane",400))
@@ -160,16 +144,16 @@ import crypto from 'crypto'
         }   
     })
 
-    export const resetPassword = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
+    export const resetPassword:RequestHandler = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
         const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
         const user =  await UserModel.findOne({passwordResetToken: hashedToken, passwordResetExpires: {$gt:Date.now()}})
         if(!user) return next(new AppError('User not found', 404))
-        user.password = req.body.password;
-        user.confirmPassword = req.body.passwordConfirm;
+        user.password = req.body.password as string;
+        user.confirmPassword = req.body.passwordConfirm as string;
         user.passwordResetToken = undefined;
         user.passwordResetExpires = undefined
         await user.save();
-        const token = signToken(user.id);
+        const token = signToken(user._id);
         res.status(200).json({
             status: 'success',
             token

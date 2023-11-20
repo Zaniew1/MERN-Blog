@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import jwt  from 'jsonwebtoken' ;
-import {UserSchemaType} from '../models/userModel'
+import {UserSchemaType} from '../types/blogTypes'
 import bcrypt from 'bcryptjs'
 import 'dotenv/config';
 

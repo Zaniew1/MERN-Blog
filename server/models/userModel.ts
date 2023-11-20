@@ -1,20 +1,7 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { Model, Schema, model, CallbackWithoutResultAndOptionalError} from 'mongoose';
-
-export type UserSchemaType = {
-    _id:string
-    email: string, 
-    name:string, 
-    surname:string,
-    password: string,
-    confirmPassword:string,
-    creationDate: number,
-    passwordResetToken?: string,
-    passwordResetExpires?: number,
-    avatar?:string,
-    createPasswordResetToken: () =>Promise<string>
-}
+import { UserSchemaType } from '../types/blogTypes';
 
 const UserSchema = new Schema<UserSchemaType>({
     email:{

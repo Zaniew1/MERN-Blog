@@ -22,6 +22,7 @@ export const useCreateNewPost = (postData:CreatePostType) => {
             data.set('contentCategory', postData.contentCategory);
             data.set('mainPicture', postData.mainPicture ?? "");
             data.set('creator', `${userData.id}`);
+            data.set('creatorAvatar', `${userData.avatar}`);
             const response = await fetch("http://localhost:3001/article", {
                 method: "POST",
                 body: data

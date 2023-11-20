@@ -7,7 +7,7 @@ export const Create:React.FC = ():JSX.Element => {
   const [surname, setSurname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const {error, success, setError, createUser} =useCreateUser({email, name, surname, password, confirmPassword})
+  const {error, success, setError, createUser} = useCreateUser({email, name, surname, password, confirmPassword})
     return (
       <>
         {success && <Popup type={'success'} text={success}/>}

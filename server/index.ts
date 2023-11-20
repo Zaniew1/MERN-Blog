@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import mongoose from 'mongoose';
@@ -6,7 +6,6 @@ import AppError from './utils/appError';
 import  globalErrorHandler from './controllers/errorController';
 import userRouter from './routes/userRoutes';
 import blogRouter from './routes/blogRoutes';
-// import View from "grandjs";
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -23,10 +22,9 @@ console.log(__dirname + '/images')
 app.listen(3001, ()=>{
     console.log("Server runs good !")
 })
-app.all('*', (req: express.Request, res:express.Response, next: express.NextFunction)=>{
+app.all('*', (req: Request, res:Response, next: NextFunction)=>{
     next( new AppError(`Cant find ${req.originalUrl} on this server`, 404))
 })
-
 app.use(globalErrorHandler);
 
 mongoose.connect(`${process.env.MONGO_DB_PASS}`)

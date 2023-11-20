@@ -29,11 +29,19 @@ export type UserType = {
     email:string
     avatar?:string
 }
+
 export type EditUserType = {
     id: string,
     avatar: File | null
     name:string,
     surname: string
+}
+export type CreateUserType = {
+    email:string,
+    name:string,
+    surname: string
+    password:string,
+    confirmPassword:string,
 }
 export const emptyUserType:UserType = {
     id: "",
@@ -75,3 +83,10 @@ export type LoginDataType = {
     status:string,
     token: string
   }
+ export type UIContextType = {
+    mobileNav: boolean,
+    setMobileNav: (logged: boolean) => void,
+    showMorePostsIndex: number,
+    setShowMorePostsIndex: (prevState: ((prev: number) => number)) => void,
+  }
+

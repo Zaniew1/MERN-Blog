@@ -10,6 +10,7 @@ export const NewestPost:React.FC<PostType> = (props):JSX.Element =>{
     const date = new Date(props.creationDate).toLocaleDateString();
     const {loggedIn, userData} = useContext(AuthContext);
     const {error, deletePost} = useDeletePost(`${props.id}`)
+    console.log(props.creator)
     return (
         <>
             {error && <Popup text={error} type={'error'}/>}
@@ -21,7 +22,7 @@ export const NewestPost:React.FC<PostType> = (props):JSX.Element =>{
                         <div className="w-full  my-[15px] flex">
                             <div className="w-[30%] h-full flex justify-center items-center md:justify-start md:w-[100px]">
                                 <div className="w-[70px] h-[70px] rounded-[50%]">
-                                    <img className="w-full h-full rounded-[50%]" src={`http://localhost:3001/images/users/${userData.avatar}`}/>
+                                    <img className="w-full h-full rounded-[50%]" src={`http://localhost:3001/images/users/${props.creator.avatar}`}/>
                                 </div>
                             </div>
                             <div className=" w-[40%] ">

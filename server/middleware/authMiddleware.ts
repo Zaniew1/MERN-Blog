@@ -3,7 +3,7 @@ import catchAsync from '../utils/catchAsync';
 import UserModel from '../models/userModel'
 import  AppError from '../utils/appError';
 import {Request, Response, NextFunction} from 'express';
-import {UserSchemaType} from '../models/userModel'
+import {UserSchemaType} from '../types/blogTypes'
 
 interface AuthRequest extends Request {
     user?: UserSchemaType;

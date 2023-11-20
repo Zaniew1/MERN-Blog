@@ -2,6 +2,7 @@ import multer, { Multer, FileFilterCallback } from 'multer'
 import sharp from 'sharp'
 import { Request, Response, NextFunction} from 'express';
 import AppError from '../utils/appError';
+import catchAsync from '../utils/catchAsync';
 type DestinationCallback = (error: Error | null, destination: string) => void
 type FileNameCallback = (error: Error | null, filename: string) => void
 // this code saves pictures directly to disc
@@ -30,32 +31,46 @@ const uploadMulter: Multer = multer({
     fileFilter: multerFilter
 });
 
-export const resizeUserPhoto = (req:Request, res:Response, next:NextFunction) => {
-    console.log(req.file)
-    console.log(req.body)
-    if(!req.file) return next(new AppError('There is no photo!', 400))
-    req.file.filename = `user-${Date.now()}_${req.file.originalname}`;
+export const resizeUserPhoto = catchAsync(async(req:Request, res:Response, next:NextFunction) => {
+    if(req.file){
+        req.file.filename = `user-${Date.now()}_${req.file.originalname}`;
+        try{
+            await sharp(req.file.buffer)
+                .resize(100,100)
+                .toFormat('jpeg')
+                .jpeg({quality: 90,})
+                .toFile(`images/users/${req.file.filename}`)
+                req.body.avatar = req.file.filename
+                next();
+        }catch(err){
+            console.log(err)
+            next(err)
+        }
+    }else{
+        next();
+    }
 
-    sharp(req.file.buffer)
-        .resize(100,100)
-        .toFormat('jpeg')
-        .jpeg({quality: 90,})
-        .toFile(`images/users/${req.file.filename}`)
-        req.body.avatar = req.file.filename
-        console.log(req.body)
-        next();
-}       
-export const resizePostPhoto = (req:Request, res:Response, next:NextFunction) => {
-    if(!req.file) return next(new AppError('There is no photo!', 400))
-    req.file.filename = `post-${Date.now()}_${req.file.originalname}`
-    sharp(req.file.buffer)
-        .resize(800,800)
-        .toFormat('jpeg')
-        .jpeg({quality: 90,})
-        .toFile('images/posts/'+req.file.filename)
-        req.body.mainPicture = req.file.filename
-        next();
-}        
+})    
+export const resizePostPhoto = catchAsync( async (req:Request, res:Response, next:NextFunction) => {
+    if(req.file){
+        req.file.filename = `post-${Date.now()}_${req.file.originalname}`;
+        try{
+            await sharp(req.file.buffer)
+                .resize(800,800)
+                .toFormat('jpeg')
+                .jpeg({quality: 90,})
+                .toFile('images/posts/'+req.file.filename)
+                req.body.mainPicture = req.file.filename
+                next();
+        }catch(err){
+            console.log(err);
+            next(err)
+        }
+    }
+    else{
+        next()
+    }
+} )      
 
 export const uploadPostPhoto = uploadMulter.single('mainPicture')
 export const uploadUserPhoto = uploadMulter.single('avatar')
