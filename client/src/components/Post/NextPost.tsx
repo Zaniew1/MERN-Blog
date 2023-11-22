@@ -1,21 +1,16 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react';
 import { AuthContext } from '../../store/Auth-context';
 import { UIContext } from '../../store/UI-context';
-import {  faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NextPostType } from '../../types/blogTypes';
-import { useDeletePost } from '../../customHooks/Posts/useDeletePost';
-import { Popup } from '../Utilities/Popup';
+import { EditDeleteIcons } from '../Utilities/EditDeleteIcons';
 
 export const NextPost:React.FC<NextPostType> = (props):JSX.Element => {
     const date = new Date(props.creationDate).toLocaleDateString();
     const {showMorePostsIndex} = useContext(UIContext);
     const {loggedIn, userData} = useContext(AuthContext);
-    const {error, deletePost} = useDeletePost(`${props.id}`)
     return(
         <>
-            {error && <Popup text={error} type={'error'}/>}
-            <article className={`mt-[20px] mx-[15px] z-10 border-b border-solid border-slate-300 md:border-none md:mb-[60px] ${+props.index > 2 ? "lg:w-[25%]" : "lg:w-[45%]"} ${+props.index >= +showMorePostsIndex ? "hidden" : ""} lg:flex-grow `}>
+            <article className={`mt-[20px] mx-[15px] z-10 border-b border-solid border-slate-300 md:border-none md:mb-[60px] ${+props.index > 2 ? "md:w-[25%]" : "md:w-[45%]"} ${+props.index >= +showMorePostsIndex ? "hidden" : ""} md:flex-grow `}>
                     <a href={`/${props.id}`} className={`w-full h-[100px] bg-center cursor-pointer bg-cover md:aspect-video md:h-auto ${+props.index > 2 ? "lg:aspect-video" : "lg:h-[200px]"}`}>
                         <img className="w-full " src={`http://localhost:3001/images/posts/${props.mainPicture}`}/>    
                     </a>
@@ -33,10 +28,7 @@ export const NextPost:React.FC<NextPostType> = (props):JSX.Element => {
                             <p className="text-[1.2em] font-thin tracking-wider text-gray-400">{date}</p>
                         </div>
                         {userData.id == props.creator._id && loggedIn &&
-                            <div className=" w-[30%] flex">
-                                    <a className="cursor-pointer" href={`/editPost/${props.id}`} ><FontAwesomeIcon icon={faPenToSquare} className="px-[20px] hover:text-slate-600"/></a>
-                                    <div className="cursor-pointer" onClick={deletePost}><FontAwesomeIcon icon={faTrash} className="hover:text-slate-600"/></div>
-                            </div>
+                           <EditDeleteIcons  id={`${props.id}`}/>
                         }
                     </div>
             </article>
