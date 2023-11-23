@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import {PostType, emptyPostType} from '../../types/blogTypes'
+import { useShowInfo } from "../useShowInfo";
 export const useGetOnePost = (id:string) => {
-    const [error, setError] = useState<string>('');
     const [data, setData] = useState<PostType>(emptyPostType);
-    const [loading, setLoading] = useState<boolean>(false);
+    const {showError} = useShowInfo();
     useEffect(()=>{
         const fetchData = async () =>{
-            setLoading(true)
+            console.log('Pobieram posta')
             try{
                 const response = await fetch("http://localhost:3001/article/"+id, {
                     method: "GET",
@@ -15,18 +15,15 @@ export const useGetOnePost = (id:string) => {
                     },
                 })
                 if (!response.ok) {
-                    setError("Nie udało się pobrać tego artykułu. Spróbuj ponownie później");
+                    showError("Nie udało się pobrać tego artykułu. Spróbuj ponownie później");
                 }
                 const post = await response.json();
-                console.log(post)
                 setData(post.post as PostType)
-                setLoading(false)
             }catch(err){
-                setError('Wystąpił błąd podczas pobierania danych')
-                setLoading(false)
+                showError('Wystąpił błąd podczas pobierania danych')
             }
     }
     fetchData();
-        },[id])
-    return {data, error, setError, loading};
+        },[])
+    return {data};
 }

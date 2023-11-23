@@ -1,9 +1,6 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useShowInfo } from '../useShowInfo';
 export const useForgetPassword = (email:string) => {
-    const [error, setError] = useState<string>('');
-    const [success, setSuccess] = useState<string>('');
-    const navigate  = useNavigate()
+    const {showError, showSuccess} = useShowInfo()
     const forgetPassword = async (e: React.FormEvent<HTMLFormElement>): Promise<void> =>{
             e.preventDefault();
             const response = await fetch("http://localhost:3001/forgetPassword", {
@@ -14,13 +11,11 @@ export const useForgetPassword = (email:string) => {
                 body: JSON.stringify( {email} ),
               })
               if (!response.ok) {
-                setError("Nie udało się wysłać maila, spróbuj ponownie później!");
+                showError("Nie udało się wysłać maila, spróbuj ponownie później!");
               }else{
-                setSuccess("Wysłano maila resetującego, sprawdz pocztę!");
-                setTimeout(()=>{
-                  navigate('/');
-                }, 1000)
+                showSuccess("Wysłano maila resetującego, sprawdz pocztę!");
+        
               }
     }
-    return {error, success, forgetPassword}
+    return {forgetPassword}
 }

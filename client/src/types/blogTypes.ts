@@ -89,4 +89,9 @@ export type LoginDataType = {
     showMorePostsIndex: number,
     setShowMorePostsIndex: (prevState: ((prev: number) => number)) => void,
   }
-
+  export type ErrorContextType = {
+    error: string,
+    setError: (error: string) => void,
+    success: string,
+    setSuccess: (suceess: string) => void,
+  }

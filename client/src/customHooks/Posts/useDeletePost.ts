@@ -1,10 +1,6 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useShowInfo } from '../useShowInfo';
 export const useDeletePost = (id:string) => {
-    const navigator = useNavigate();
-    const [error, setError] = useState<string>('');
-    // const [loading, setLoading] = useState<boolean>(false);
-
+    const {showError, showSuccess} = useShowInfo()
     const deletePost = async () =>{
         try{
             const response = await fetch("http://localhost:3001/article/"+id, {
@@ -14,14 +10,14 @@ export const useDeletePost = (id:string) => {
                   },
               })
               if(response.ok){
-                  navigator('/')
+                showSuccess('Usunięto posta!')
               }else{
-                setError("Nie udało się usunąć")
+                showError("Nie udało się usunąć")
               }
         }catch(err){
-            setError('Wystąpił błąd podczas usuwania posta')
+            showError('Wystąpił błąd podczas usuwania posta')
         }
     }
-    return {error, deletePost};
+    return {deletePost};
 }
  

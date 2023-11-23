@@ -1,9 +1,10 @@
 import { deleteCookie } from "../../utils/cookies";
-import { useContext, useState } from "react";
+import { useContext} from "react";
 import {AuthContext} from '../../store/Auth-context';
+import { useShowInfo } from '../useShowInfo';
 export const useLogOut = () => {
     const {setloggedIn} = useContext(AuthContext);
-    const [error, setError] = useState<string>('')
+    const {showError, showSuccess} = useShowInfo()
     const logOut = async () =>{
         const response = await fetch("http://localhost:3001/logoutUser", {
             method: "POST",
@@ -13,11 +14,12 @@ export const useLogOut = () => {
         })
         if(response.ok){
             setloggedIn(false);
+            showSuccess("Wylogowano")
             deleteCookie('jwt')
         }
         else{
-            setError('Nie udało się wylogować, dziwne')
+            showError('Nie udało się wylogować, dziwne')
         }
     }
-    return {error, logOut}
+    return {logOut}
 }

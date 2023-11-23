@@ -1,16 +1,13 @@
-import { Popup } from "../Utilities/Popup";
 import {useState} from 'react';
 import { useChangePassword } from "../../customHooks/Users/useChangePassword";
 export const ChangePassword:React.FC = ():JSX.Element => {
     const [oldPass, setOldPass] = useState<string>('');
     const [newPass, setNewPass] = useState<string>('');
     const [confirmNewPass, setConfirmNewPass] = useState<string>('');
-    const {error, success, changePassword} = useChangePassword(oldPass, newPass, confirmNewPass)
+    const {changePassword} = useChangePassword(oldPass, newPass, confirmNewPass)
     
     return (
-        <>
-            {success && <Popup type={'success'} text={success}/>}
-            {error && <Popup type={'error'} text={error}/>}
+
             <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[35%] ">
                 <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]" >Zmiana hasła</p>
                 <form className="w-[70%] flex flex-col justify-center mt-[20px]" onSubmit={changePassword} >
@@ -24,6 +21,5 @@ export const ChangePassword:React.FC = ():JSX.Element => {
                     <button type="submit" className="w-[80%] m-auto my-[2em] border border-cyan-700 text-[0.8em] py-[12px] font-semibold shadow-myShadow hover:bg-cyan-700 hover:text-white">Zmień hasło</button>
                 </form>
             </div>
-        </>
     )
 }

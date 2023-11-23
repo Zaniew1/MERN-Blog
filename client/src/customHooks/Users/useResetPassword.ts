@@ -1,10 +1,10 @@
-import { useState } from "react";
+// import { useShowInfo } from '../useShowInfo';
 export const useResetPassword = (data:{password:string, confirmPassword:string}) => {
-    const [error, setError] = useState<string>('');
-    const [success, setSuccess] = useState<string>('');
+    // const {showError, showSuccess} = useShowInfo()
+
     const resetPassword = (e: React.FormEvent<HTMLFormElement>): void =>{
         e.preventDefault();
-        console.log(data, setSuccess, setError)
+        console.log(data)
     }   
-    return {error, success, resetPassword}
+    return { resetPassword}
 }
