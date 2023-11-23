@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import lineClamp from '@tailwindcss/line-clamp';
 export default {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -11,8 +12,16 @@ export default {
       backgroundImage: {
         'duck-picture': "url('src/assets/duck.jpg')",
         'me-picture': "url('/src/assets/ja.jpg')",
-      }
+      },
+      aspectRatio: {
+        '1/2': '1 / 2',
+        '2/1': '2 / 1',
+      },
+
     },
   },
-  plugins: [],
+  plugins: [
+    lineClamp
+    // ...
+  ],
 }
