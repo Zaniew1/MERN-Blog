@@ -2,7 +2,7 @@
 
 import { Header } from './Header';
 import { Burger } from './Burger';
-import { NavMobile } from './NavMobile';
+import { NavMobile } from '../Navigation/NavMobile';
 import { useContext } from "react";
 import { UIContext } from '../../store/UI-context';
 import {AuthContext} from '../../store/Auth-context';
