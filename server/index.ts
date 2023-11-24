@@ -6,6 +6,7 @@ import AppError from './utils/appError';
 import  globalErrorHandler from './controllers/errorController';
 import userRouter from './routes/userRoutes';
 import blogRouter from './routes/blogRoutes';
+import utilsRouter from './routes/utilsRoutes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.options('*', cors());
 app.use('/', userRouter);
 app.use('/article', blogRouter);
+app.use('/', utilsRouter);
 
 // Creating server
 app.use("/images", express.static(__dirname + '/images'));
