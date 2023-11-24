@@ -1,10 +1,9 @@
 import { UIContext } from "../../store/UI-context";
 import { useContext } from "react";
 export const SeeMoreButton:React.FC = ():JSX.Element => {
-    const {showMorePostsIndex, setShowMorePostsIndex} = useContext(UIContext)
+    const {setShowMorePostsIndex} = useContext(UIContext)
     const seeMorePosts = () => {
         setShowMorePostsIndex((prevState: number) => prevState + 3);
-        console.log(showMorePostsIndex)
     }
     return (
         <div className="w-full flex justify-center items-center  ">

@@ -18,7 +18,7 @@ export const NewestPost:React.FC<PostType> = (props):JSX.Element =>{
                             textStyle={"text-[1em] font-bold text-[#2C3241] lg:text-[1.3em]"}
                             imgStyle={"w-[60px] h-[60px] rounded-[50%] mr-[15px] md:w-[80px] md:h-[80px] "} />
                     </div>
-                    <SinglePostImage id={`${props.id}`} mainPicture={props.mainPicture} style={'w-full aspect-square cursor-pointer border md:w-[45%] md:flex-grow  md:mx-[15px] '}/>
+                    <SinglePostImage id={`${props.id}`} mainPicture={props.mainPicture}/>
             </article>
         </>
 

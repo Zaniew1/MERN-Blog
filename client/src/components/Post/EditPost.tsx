@@ -24,7 +24,7 @@ export const EditPost:React.FC = ():JSX.Element => {
 
     return (
         <ContainerCard>
-            <form className="mt-[20vh] flex flex-col w-[90%] mx-auto md:w-[60%] lg:w-[40%]" onSubmit={editPost}>
+            <form className="mt-[20vh] flex flex-col w-[90%] mx-auto md:w-[70%] lg:w-[60%]" onSubmit={editPost}>
                 <label className="text-[1em] font-semibold py-[5px]" htmlFor="title">Tytuł</label>
                 <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="title" id="title" type="text" onChange={(e)=>{setTitle(e.target.value)}} value={title} placeholder="Tytuł artykułu" />
                 <label className="text-[1em] font-semibold py-[5px]" htmlFor="summary">Podsumowanie</label>
