@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {PostType, emptyPostType} from '../../types/blogTypes'
 import { useShowInfo } from "../useShowInfo";
 export const useGetOnePost = (id:string) => {
     const [data, setData] = useState<PostType>(emptyPostType);
     const {showError} = useShowInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const memoizedShowError = useCallback(showError, []);
     useEffect(()=>{
         const fetchData = async () =>{
-            console.log('Pobieram posta')
             try{
                 const response = await fetch("http://localhost:3001/article/"+id, {
                     method: "GET",
@@ -15,15 +16,15 @@ export const useGetOnePost = (id:string) => {
                     },
                 })
                 if (!response.ok) {
-                    showError("Nie udało się pobrać tego artykułu. Spróbuj ponownie później");
+                    memoizedShowError("Nie udało się pobrać tego artykułu. Spróbuj ponownie później");
                 }
                 const post = await response.json();
                 setData(post.post as PostType)
             }catch(err){
-                showError('Wystąpił błąd podczas pobierania danych')
+                memoizedShowError('Wystąpił błąd podczas pobierania danych')
             }
     }
     fetchData();
-        },[])
+        },[id, memoizedShowError])
     return {data};
 }
