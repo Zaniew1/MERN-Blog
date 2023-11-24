@@ -49,3 +49,7 @@ export type ChangePasswordType = {
     confirmNewPass:string,
     email:string
 }
+export type NewsletterInfoType = {
+    email:string,
+    subscriptionDate?: Date
+}
