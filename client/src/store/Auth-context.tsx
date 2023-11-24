@@ -34,7 +34,7 @@ export const AuthContextProvider = (props: ContextPropsType) => {
       }
     }
     fetchUserData();
-  },[])
+  },[loggedIn])
 
   
   return (
