@@ -10,8 +10,7 @@ export const useShowInfo  = () =>{
             setError(`${text}`);
             setTimeout(()=>{
                 setError('');
-                navigate('/')
-            }, 2000)
+            }, 10000)
         }
 
         const showSuccess = (text:string)=>{
