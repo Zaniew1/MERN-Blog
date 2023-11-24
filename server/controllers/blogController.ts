@@ -3,9 +3,9 @@ import catchAsync from '../utils/catchAsync';
 import  { RequestHandler,Request, Response, NextFunction } from 'express';
 import  AppError from '../utils/appError';
 import BlogModel from '../models/blogModel';
-import { BlogSchemaType } from '../types/blogTypes';
+import { BlogSchemaType} from '../types/blogTypes';
 import 'dotenv/config';
-
+import { sendNewsletter } from '../helpers/helpers';
 export const createNewArticle: RequestHandler = catchAsync( async (req:Request, res:Response, next: NextFunction) => {
     let {title, summary, content,  contentCategory, creator, mainPicture} = req.body as BlogSchemaType;
     if(!title  || !summary || !content  || !contentCategory ){
@@ -25,9 +25,11 @@ export const createNewArticle: RequestHandler = catchAsync( async (req:Request, 
     }
     if(!mainPicture) return next(new AppError("There has to be main picture", 400))
     const newPost = await BlogModel.create( {title, summary, content, contentCategory, mainPicture, creator});
+    // Send info about new post to everyone that subscribed to a newsletter 
+    sendNewsletter(newPost);
     res.status(201).json({
         status: "success",
-        data:{
+        data:{ 
             post: newPost
         }
     });
@@ -94,4 +96,5 @@ export const getArticle: RequestHandler<{id:string}> = catchAsync( async (req: R
     });
 
 })
+
 
