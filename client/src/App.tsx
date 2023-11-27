@@ -13,15 +13,15 @@ import { ContainerCard } from './components/Utilities/ContainerCard';
 import './index.css';
 import './root.css';
 function App() {
-
+  console.log("Renderuję APP")
   return (
     <ContainerCard>
       <Routes>
         <Route index element={<Home/>}></Route>
         <Route path={'/login'} element={<Login/>}></Route>
         <Route path={'/forgetPassword'} element={<ForgetPassword/>}></Route>
+        <Route path={'/resetPassword/:id'} element={<Reset/>}></Route>
         <Route path={'/changePassword'} element={<ChangePassword/>}></Route>
-        <Route path={'/reset'} element={<Reset/>}></Route>
         <Route path={'/createUser'} element={<Create/>}></Route>
         <Route path={'/me'} element={<Me/>}></Route>
         <Route path={'/CreateNewPost'} element={<CreateNewPost/>}></Route>

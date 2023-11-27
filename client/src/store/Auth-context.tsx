@@ -13,7 +13,6 @@ export const AuthContext = React.createContext<AuthContextType>({
 export const AuthContextProvider = (props: ContextPropsType) => {
   const [loggedIn, setloggedIn] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserType>(emptyUserType);
-
   useEffect(()=>{
     const fetchUserData = async ()=>{
       const jwt = getCookie("jwt");
@@ -24,7 +23,7 @@ export const AuthContextProvider = (props: ContextPropsType) => {
       if (response.ok) {
         // console.log(response)
       }else{
-         console.log(response)
+        //  console.log(response)
       }
       const user = await response.json();
       if(user.status == 'success'){

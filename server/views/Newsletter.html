@@ -1,11 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Newsletter</title>
+    <style>
+        article{
+            display: flex;
+            width: 400px;
+            height: 200px;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+        }
+        div{
+            font-size: 13px;
+            font-family: arial;
+            padding: 5px;
+        }
+        a{
+            margin-top: 10px;
+        }
+        button{
+            background-color: rgb(14 116 144 / 1);
+            outline: none;
+            border: none;
+            width:90px;
+            height: 30px;
+            border-radius: 5px;
+            box-shadow: '0px 3px 18px -9px rgba(66, 68, 90, 1)';
+            color: white
+        }
+
+    </style>
 </head>
 <body>
-    <div>No cześć Newsletter</div>
+    <article>
+      <div >Hej na nasz blog właśnie wjechał nowy post !</div>
+      <div >Jego tytuł to: {{textToReplace}}</div>
+      <a href="http://localhost:5173/">
+          <button >Zobacz</button>
+      </a>
+    </arcticle>
 </body>
 </html>

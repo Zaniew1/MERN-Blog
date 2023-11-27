@@ -26,7 +26,7 @@ export const createNewArticle: RequestHandler = catchAsync( async (req:Request, 
     if(!mainPicture) return next(new AppError("There has to be main picture", 400))
     const newPost = await BlogModel.create( {title, summary, content, contentCategory, mainPicture, creator});
     // Send info about new post to everyone that subscribed to a newsletter 
-    sendNewsletter(newPost);
+    sendNewsletter(newPost.title);
     res.status(201).json({
         status: "success",
         data:{ 

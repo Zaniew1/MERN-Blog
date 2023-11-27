@@ -45,9 +45,8 @@ import { EditUserType, AuthRequest, NewUserType,UserSchemaType, LoginUserType, C
             confirmPassword,
             avatar: "user.jpg"
         });
-        const url = `${req.protocol}://${req.get('host')}/`;
         // we send email with welcome Card component as welcome message
-        await new Email(newUser, url).sendWelcome();
+        await new Email(email, name).sendWelcome();
         // create jwt token
         createSendToken(newUser, 201, req, res);
     })
@@ -90,7 +89,7 @@ import { EditUserType, AuthRequest, NewUserType,UserSchemaType, LoginUserType, C
         await user.save({validateBeforeSave: false});
         try{
             const resetURL = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`;
-            await new Email(user, resetURL).sendPasswordReset();
+            await new Email(req.body.email, resetURL).sendPasswordReset();
             res.status(200).json({
                 status: 'success',
                 message: 'Token sent to email !',
@@ -145,6 +144,7 @@ import { EditUserType, AuthRequest, NewUserType,UserSchemaType, LoginUserType, C
     })
 
     export const resetPassword:RequestHandler = catchAsync(async (req: Request, res: Response, next:NextFunction) =>{
+        console.log(req.body)
         const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
         const user =  await UserModel.findOne({passwordResetToken: hashedToken, passwordResetExpires: {$gt:Date.now()}})
         if(!user) return next(new AppError('User not found', 404))

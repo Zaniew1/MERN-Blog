@@ -8,7 +8,7 @@ export const Me:React.FC = ():JSX.Element => {
     const [avatar, setAvatar] = useState<File | null>(null);
     const [name, setName] = useState<string>(userData.name);
     const [surname, setSurname] = useState<string>(userData.surname);
-
+    console.log("Renderuję ME")
     useEffect(()=>{
         setId(`${userData.id}`);
         setName(userData.name)
@@ -21,7 +21,7 @@ export const Me:React.FC = ():JSX.Element => {
             { loggedIn && 
             <div className="flex items-center flex-col justify-center w-screen h-screen md:w-[60%] lg:w-[65%] xl:w-[55%]">
                     <p className="text-[1.6em] ml-[0.7em] font-bold text-[#2C3241]">Edycja ustawień</p>
-                    <img className="mt-[15px] w-[100px] h-[100px] rounded-[50%] md:w-[120px] md:h-[120px]" src={`http://localhost:3001/images/users/${userData.avatar}`}/>
+                    <img className="mt-[15px] w-[100px] h-[100px] rounded-[50%] md:w-[120px] md:h-[120px]" src={`http://localhost:3001/images/users/${userData.avatar ?? "user.jpg"}`}/>
                     <form className="w-[70%] flex flex-col justify-center itmes-center mt-[20px]" onSubmit={editUser} >
                         <label className="text-[1em] font-semibold py-[5px]" htmlFor="picture">Zdjęcie profilowe</label>
                         <input className="px-[10px] py-[10px] border-[1px] border-cyan-700" name="avatar" id="picture" type="file" onChange={(e)=>{e.target.files && e.target.files.length > 0 ? setAvatar(e.target.files[0]) : ""}} placeholder="Wgraj zdjęcie" />

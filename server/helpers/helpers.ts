@@ -4,7 +4,6 @@ import {UserSchemaType} from '../types/blogTypes'
 import bcrypt from 'bcryptjs'
 import 'dotenv/config';
 import Email from '../utils/email';
-import { BlogSchemaType} from '../types/blogTypes';
 import 'dotenv/config';
 import path from 'path'
 import fs from 'fs'
@@ -51,14 +50,14 @@ export const comparePasswords = async function( typedPassword:string, databasePa
 }
 
 
-export const sendNewsletter = async (newPost:BlogSchemaType ) => {
+export const sendNewsletter = async (title:string ) => {
     const filePath = path.join(__dirname, '../cacheData', 'newsletter.json');
     fs.readFile(filePath, 'utf8', async (err, data) => {
         if (err) return new AppError('Error reading file:', 404)
         try {
-            const existingEmails = JSON.parse(data);
-            for (const email of existingEmails) {
-                await new Email(email, newPost.title).sendNewsletter();
+            const existingEmails:{email:string, subscriptionDate:Date}[] = JSON.parse(data);
+            for (const user of existingEmails) {
+                await new Email(user.email, title).sendNewsletter();
             }
         }
         catch(err) {return new AppError('Error:'+err, 404)}

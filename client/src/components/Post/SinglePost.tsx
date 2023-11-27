@@ -1,10 +1,11 @@
 import { ContainerCard } from "../Utilities/ContainerCard";
 import { useGetOnePost } from "../../customHooks/Posts/useGetOnePost";
 import { PostType } from '../../types/blogTypes';
-import { SinglePostImage } from "../Utilities/SinglePostImage";
+import { SinglePostImage } from "./SinglePostImage";
 export const SinglePost:React.FC = ():JSX.Element =>{
   const {data} = useGetOnePost(window.location.pathname)
   const {title, mainPicture, creator, content, contentCategory, creationDate} = data as PostType
+  console.log("Renderuję single post")
     return (
        <ContainerCard>
             <div   className="flex flex-col justify-center items-center  w-[90%] mt-[150px] ">
