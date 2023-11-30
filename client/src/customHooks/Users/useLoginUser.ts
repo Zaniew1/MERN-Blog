@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import {blogData} from '../../../public/data/data.js'
 import {AuthContext} from '../../store/Auth-context'
 import { UserType, LoginDataType } from '../../types/blogTypes';
 import { useShowInfo } from '../useShowInfo';
@@ -12,7 +13,7 @@ export const useLoginUser = (data: {email:string, password:string}) => {
       if(!data.password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
         return showError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny");
       }
-      const response = await fetch("http://localhost:3001/loginUser", {
+      const response = await fetch(blogData.serverDomain+"/loginUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

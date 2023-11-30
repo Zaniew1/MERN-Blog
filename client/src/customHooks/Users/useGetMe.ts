@@ -1,4 +1,5 @@
 import {UserType,emptyUserType } from '../../types/blogTypes'
+import {blogData} from '../../../public/data/data.js'
 import {useEffect,useState  } from "react";
 import { getCookie } from "../../utils/cookies";
 export const useGetMe = () => {
@@ -7,7 +8,7 @@ export const useGetMe = () => {
     useEffect(()=>{
         const fetchUserData = async ()=>{
           const jwt = getCookie("jwt");
-          const response = await fetch("http://localhost:3001/profile", {
+          const response = await fetch(blogData.serverDomain+"/profile", {
             method: "GET",
             headers: {Authorization: `Bearer ${jwt}`}
           })

@@ -1,4 +1,5 @@
 import { useShowInfo } from '../useShowInfo';
+import {blogData} from '../../../public/data/data.js'
 export const useResetPassword = (password:string,passwordConfirm:string) => {
     const {showError, showSuccess} = useShowInfo()
     const resetPassword = async (e: React.FormEvent<HTMLFormElement>): Promise<void> =>{
@@ -8,7 +9,7 @@ export const useResetPassword = (password:string,passwordConfirm:string) => {
                 return showError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny"); }
             if(password !== passwordConfirm) return showError('Hasła nie są jednakowe');
 
-            const response = await fetch(`http://localhost:3001${window.location.pathname}`, {
+            const response = await fetch(`${blogData.serverDomain}${window.location.pathname}`, {
                 method: "PATCH",
                 headers: {
                   "Content-Type": "application/json",

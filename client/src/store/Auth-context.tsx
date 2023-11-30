@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getCookie } from "../utils/cookies";
+import {blogData} from '../../public/data/data.js'
+
 import {UserType, AuthContextType,ContextPropsType, emptyUserType } from '../types/blogTypes'
 
 export const AuthContext = React.createContext<AuthContextType>({
@@ -16,7 +18,7 @@ export const AuthContextProvider = (props: ContextPropsType) => {
   useEffect(()=>{
     const fetchUserData = async ()=>{
       const jwt = getCookie("jwt");
-      const response = await fetch("http://localhost:3001/profile", {
+      const response = await fetch(blogData.serverDomain+"/profile", {
         method: "GET",
         headers: {Authorization: `Bearer ${jwt}`}
       })

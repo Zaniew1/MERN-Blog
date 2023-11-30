@@ -1,5 +1,6 @@
 import { CreatePostType } from "../../types/blogTypes";
 import {useContext} from 'react';
+import {blogData} from '../../../public/data/data.js'
 import { AuthContext } from '../../store/Auth-context';
 import { useShowInfo } from '../useShowInfo';
 export const useCreateNewPost = (postData:CreatePostType) => {
@@ -20,7 +21,7 @@ export const useCreateNewPost = (postData:CreatePostType) => {
             data.set('mainPicture', postData.mainPicture ?? "");
             data.set('creator', `${userData.id}`);
             data.set('creatorAvatar', `${userData.avatar}`);
-            const response = await fetch("http://localhost:3001/article", {
+            const response = await fetch(blogData.serverDomain+"/article", {
                 method: "POST",
                 body: data
             });

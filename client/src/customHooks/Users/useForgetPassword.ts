@@ -1,9 +1,10 @@
 import { useShowInfo } from '../useShowInfo';
+import {blogData} from '../../../public/data/data.js'
 export const useForgetPassword = (email:string) => {
     const {showError, showSuccess} = useShowInfo()
     const forgetPassword = async (e: React.FormEvent<HTMLFormElement>): Promise<void> =>{
             e.preventDefault();
-            const response = await fetch("http://localhost:3001/forgetPassword", {
+            const response = await fetch(blogData.serverDomain+"/forgetPassword", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

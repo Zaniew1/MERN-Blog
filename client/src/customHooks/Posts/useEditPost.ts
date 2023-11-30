@@ -1,4 +1,5 @@
 import { CreatePostType } from '../../types/blogTypes';
+import {blogData} from '../../../public/data/data.js'
 import { useShowInfo } from '../useShowInfo';
 export const useEditPost = (id:string, postData: CreatePostType) =>{
     const {showError, showSuccess} = useShowInfo()
@@ -14,7 +15,7 @@ export const useEditPost = (id:string, postData: CreatePostType) =>{
         data.set('content', postData.content);
         data.set('contentCategory', postData.contentCategory);
         data.set('mainPicture', postData.mainPicture ?? "");
-        const response = await fetch("http://localhost:3001/article/"+id, {
+        const response = await fetch(blogData.serverDomain+"/article/"+id, {
             method: "PUT",
             body: data
           });

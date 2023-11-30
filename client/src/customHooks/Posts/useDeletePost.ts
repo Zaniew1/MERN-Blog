@@ -1,9 +1,10 @@
 import { useShowInfo } from '../useShowInfo';
+import {blogData} from '../../../public/data/data.js'
 export const useDeletePost = (id:string) => {
     const {showError, showSuccess} = useShowInfo()
     const deletePost = async () =>{
         try{
-            const response = await fetch("http://localhost:3001/article/"+id, {
+            const response = await fetch(blogData.serverDomain+"/article/"+id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

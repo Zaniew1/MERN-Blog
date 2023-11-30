@@ -1,9 +1,10 @@
 import { useShowInfo } from '../useShowInfo';
+import {blogData} from '../../../public/data/data.js'
 export const useSubscribeNewsletter = (email:string) => {
     const {showError, showSuccess} = useShowInfo()
     const subscribeNewsletter = async (e: React.FormEvent<HTMLFormElement>): Promise<void> =>{
             e.preventDefault();
-            const response = await fetch("http://localhost:3001/newsletter", {
+            const response = await fetch(blogData.serverDomain+"/newsletter", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

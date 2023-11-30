@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import {blogData} from '../../../public/data/data.js'
 import {PostType, emptyPostType} from '../../types/blogTypes'
 import { useShowInfo } from "../useShowInfo";
 export const useGetOnePost = (id:string) => {
@@ -9,7 +10,7 @@ export const useGetOnePost = (id:string) => {
     useEffect(()=>{
         const fetchData = async () =>{
             try{
-                const response = await fetch("http://localhost:3001/article/"+id, {
+                const response = await fetch(blogData.serverDomain+"/article/"+id, {
                     method: "GET",
                     headers: {
                     "Content-Type": "application/json",

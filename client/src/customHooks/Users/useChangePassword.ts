@@ -1,5 +1,6 @@
 
 import {useContext} from 'react';
+import {blogData} from '../../../public/data/data.js'
 import { AuthContext } from '../../store/Auth-context';
 import { useShowInfo } from '../useShowInfo';
 export const useChangePassword  = (oldPass:string, newPass:string, confirmNewPass:string) =>{
@@ -15,7 +16,7 @@ export const useChangePassword  = (oldPass:string, newPass:string, confirmNewPas
           showError("Nowe hasło i potwierdzenie nowego hasła muszą być te same");
             return;
         }
-        const response = await fetch("http://localhost:3001/changePassword", {
+        const response = await fetch(blogData.serverDomain+"/changePassword", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
