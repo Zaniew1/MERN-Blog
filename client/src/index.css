@@ -749,10 +749,6 @@ video {
   width: 15rem;
 }
 
-.w-\[100\%\] {
-  width: 100%;
-}
-
 .w-\[100px\] {
   width: 100px;
 }
@@ -801,28 +797,12 @@ video {
   width: 100vw;
 }
 
-.w-\[95vw\] {
-  width: 95vw;
-}
-
 .max-w-6xl {
   max-width: 72rem;
 }
 
-.max-w-\[33\%\] {
-  max-width: 33%;
-}
-
 .max-w-\[400px\] {
   max-width: 400px;
-}
-
-.max-w-\[50\%\] {
-  max-width: 50%;
-}
-
-.flex-grow {
-  flex-grow: 1;
 }
 
 .grow {

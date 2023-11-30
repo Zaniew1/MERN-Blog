@@ -21,7 +21,7 @@ app.use('/', utilsRouter);
 // Creating server
 app.use("/images", express.static(__dirname + '/images'));
 console.log(__dirname + '/images')
-app.listen(3001, ()=>{
+app.listen(process.env.PORT || 3001, ()=>{
     console.log("Server runs good !")
 })
 app.all('*', (req: Request, res:Response, next: NextFunction)=>{
