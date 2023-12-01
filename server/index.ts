@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser';
 const app = express();
 app.use(cors({
     credentials: true,
-    origin:['https://mern-blog-front-two.vercel.app/'],
+    origin:['https://mern-blog-front-two.vercel.app'],
     methods:["POST", "GET", "PATCH", "DELETE", "PUT"]
 }));
 app.use(express.json());
