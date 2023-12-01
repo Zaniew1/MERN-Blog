@@ -9,6 +9,7 @@ export const useGetAllPosts =  () => {
         const fetchPosts = async () => {
             const response = await fetch(blogData.serverDomain+"/article", {
                 method: "GET",
+                mode: "cors",
                 headers: {
                   "Content-Type": "application/json",
                 },

@@ -15,6 +15,7 @@ export const useLoginUser = (data: {email:string, password:string}) => {
       }
       const response = await fetch(blogData.serverDomain+"/loginUser", {
         method: "POST",
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },

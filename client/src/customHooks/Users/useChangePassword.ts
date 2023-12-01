@@ -18,6 +18,7 @@ export const useChangePassword  = (oldPass:string, newPass:string, confirmNewPas
         }
         const response = await fetch(blogData.serverDomain+"/changePassword", {
             method: "POST",
+            mode: "cors",
             headers: {
               "Content-Type": "application/json",
             },

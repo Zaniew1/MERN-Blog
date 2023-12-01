@@ -12,6 +12,7 @@ export const useGetOnePost = (id:string) => {
             try{
                 const response = await fetch(blogData.serverDomain+"/article/"+id, {
                     method: "GET",
+                    mode: "cors",
                     headers: {
                     "Content-Type": "application/json",
                     },
