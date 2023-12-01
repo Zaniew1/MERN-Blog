@@ -15,12 +15,11 @@ export const useLoginUser = (data: {email:string, password:string}) => {
       }
       const response = await fetch(blogData.serverDomain+"/loginUser", {
         method: "POST",
-        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify( data ),
-        credentials: 'include'
+        // credentials: 'include'
       })
       if (!response.ok) {
         showError("Logowanie nie udane!");

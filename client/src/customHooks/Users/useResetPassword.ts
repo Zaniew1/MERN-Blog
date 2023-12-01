@@ -11,7 +11,6 @@ export const useResetPassword = (password:string,passwordConfirm:string) => {
 
             const response = await fetch(`${blogData.serverDomain}${window.location.pathname}`, {
                 method: "PATCH",
-                mode: "cors",
                 headers: {
                   "Content-Type": "application/json",
                 },

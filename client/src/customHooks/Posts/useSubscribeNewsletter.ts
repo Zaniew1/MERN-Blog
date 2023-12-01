@@ -6,7 +6,6 @@ export const useSubscribeNewsletter = (email:string) => {
             e.preventDefault();
             const response = await fetch(blogData.serverDomain+"/newsletter", {
                 method: "POST",
-                mode: "cors",
                 headers: {
                   "Content-Type": "application/json",
                 },

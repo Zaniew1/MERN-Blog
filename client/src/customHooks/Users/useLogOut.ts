@@ -9,7 +9,6 @@ export const useLogOut = () => {
     const logOut = async () =>{
         const response = await fetch(blogData.serverDomain+"/logoutUser", {
             method: "POST",
-            mode: "cors",
             headers: {
                 "Content-Type": "application/json",
             },

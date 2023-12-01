@@ -16,12 +16,11 @@ export const useCreateUser = (userData: CreateUserType) => {
             if(!userData.password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)) return showError("Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny");
             const response = await fetch(blogData.serverDomain+"/createNewUser", {
                 method: "POST",
-                mode: "cors",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify(userData),
-                credentials: 'include'
+                // credentials: 'include'
             })
             if (!response.ok) {
               showError("Nie udało się stworzyć użytkownika");

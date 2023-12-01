@@ -23,7 +23,6 @@ export const useCreateNewPost = (postData:CreatePostType) => {
             data.set('creatorAvatar', `${userData.avatar}`);
             const response = await fetch(blogData.serverDomain+"/article", {
                 method: "POST",
-                mode: "cors",
                 body: data
             });
             if (!response.ok) {

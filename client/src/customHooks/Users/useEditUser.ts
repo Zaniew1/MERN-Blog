@@ -15,7 +15,6 @@ export const useEditUser = (dataUser:EditUserType) => {
         data.set('avatar', dataUser.avatar ?? "");
         const response = await fetch(blogData.serverDomain+"/editUser", {
                 method: "POST",
-                mode: "cors",
                 body: data,
               })
               if (!response.ok) {

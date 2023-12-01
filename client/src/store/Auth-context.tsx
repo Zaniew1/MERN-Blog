@@ -18,9 +18,9 @@ export const AuthContextProvider = (props: ContextPropsType) => {
   useEffect(()=>{
     const fetchUserData = async ()=>{
       const jwt = getCookie("jwt");
+      // console.log(blogData.serverDomain+"/profile")
       const response = await fetch(blogData.serverDomain+"/profile", {
         method: "GET",
-        mode: "cors",
         headers: {Authorization: `Bearer ${jwt}`}
       })
       if (response.ok) {

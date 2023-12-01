@@ -80,9 +80,6 @@ export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:R
 })
 
 export const getAllArticles: RequestHandler = catchAsync( async (req: Request, res: Response, next:  NextFunction) => {
-    res.header('Access-Control-Allow-Origin', 'https://mern-blog-front-two.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
     const posts = await BlogModel.find().populate('creator', ['name', 'surname', 'email', 'avatar']);
     res.status(200).json({
         status: 'success',

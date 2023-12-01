@@ -6,7 +6,6 @@ export const useDeletePost = (id:string) => {
         try{
             const response = await fetch(blogData.serverDomain+"/article/"+id, {
                 method: "DELETE",
-                mode: "cors",
                 headers: {
                     "Content-Type": "application/json",
                   },

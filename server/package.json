@@ -39,7 +39,8 @@
   "scripts": {
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "dev": "nodemon index.ts"
   },
   "keywords": [],
   "author": "",

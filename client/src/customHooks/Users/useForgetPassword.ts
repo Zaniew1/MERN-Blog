@@ -6,7 +6,6 @@ export const useForgetPassword = (email:string) => {
             e.preventDefault();
             const response = await fetch(blogData.serverDomain+"/forgetPassword", {
                 method: "POST",
-                mode: "cors",
                 headers: {
                   "Content-Type": "application/json",
                 },

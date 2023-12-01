@@ -17,7 +17,6 @@ export const useEditPost = (id:string, postData: CreatePostType) =>{
         data.set('mainPicture', postData.mainPicture ?? "");
         const response = await fetch(blogData.serverDomain+"/article/"+id, {
             method: "PUT",
-            mode: "cors",
             body: data
           });
           if (!response.ok) {
