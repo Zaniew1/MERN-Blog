@@ -7,7 +7,7 @@ export const useGetAllPosts =  () => {
     const [posts , setPosts] = useState<PostType[]>([]);
     useEffect(() => {
         const fetchPosts = async () => {
-            const response = await fetch(blogData.serverDomain+"/article", {
+            const response = await fetch("https://mern-blog-ivory.vercel.app/article", {
                 method: "GET",
                 mode: "cors",
                 headers: {
