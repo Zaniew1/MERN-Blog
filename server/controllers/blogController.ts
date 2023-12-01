@@ -80,9 +80,9 @@ export const editArticle: RequestHandler<{id:string}> = catchAsync( async (req:R
 })
 
 export const getAllArticles: RequestHandler = catchAsync( async (req: Request, res: Response, next:  NextFunction) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    // res.header('Access-Control-Allow-Origin', '*');
+    // res.header('Access-Control-Allow-Methods', 'GET');
+    // res.header('Access-Control-Allow-Headers', 'Content-Type');
     const posts = await BlogModel.find().populate('creator', ['name', 'surname', 'email', 'avatar']);
     res.status(200).json({
         status: 'success',
@@ -91,9 +91,6 @@ export const getAllArticles: RequestHandler = catchAsync( async (req: Request, r
 })
 
 export const getArticle: RequestHandler<{id:string}> = catchAsync( async (req: Request, res: Response, next:  NextFunction) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
     const post = await BlogModel.findById(req.params.id).populate('creator', ['name', 'surname', 'email','avatar']);
     if(!post)return next(new AppError('There is no such post', 404));
     res.status(200).json({

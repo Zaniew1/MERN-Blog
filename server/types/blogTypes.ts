@@ -1,4 +1,5 @@
 import { Request } from "express"
+import { Schema, } from 'mongoose';
 export type UserSchemaType = {
     _id:string
     email: string, 
@@ -19,7 +20,7 @@ export type BlogSchemaType = {
     contentCategory:string,
     mainPicture: string,
     creationDate?: number,
-    creator?:string,
+    creator?:{ type: Schema.Types.ObjectId, ref: 'User', required: true },
     creatorAvatar?: string,
 }
 
