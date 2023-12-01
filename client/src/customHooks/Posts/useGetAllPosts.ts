@@ -9,7 +9,7 @@ export const useGetAllPosts =  () => {
         const fetchPosts = async () => {
             const response = await fetch("https://mern-blog-ivory.vercel.app/article", {
                 method: "GET",
-                mode: "cors",
+                mode: "no-cors",
                 headers: {
                   "Content-Type": "application/json",
                 },
