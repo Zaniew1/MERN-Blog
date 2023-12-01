@@ -10,11 +10,24 @@ import utilsRouter from './routes/utilsRoutes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(cors({
+// app.use(cors({
+//     credentials: true,
+//     origin:'https://mern-blog-front-two.vercel.app',
+//     methods:["POST", "GET"]
+// }));
+
+const corsOptions = {
+    origin: 'https://mern-blog-front-two.vercel.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    origin:'https://mern-blog-front-two.vercel.app',
-    methods:["POST", "GET"]
-}));
+    optionsSuccessStatus: 204,
+  };
+  
+  app.use(cors(corsOptions));
+
+
+
+
 app.get('/', (req, res) => {
     res.send('Hello, this is your backend!');
   });
