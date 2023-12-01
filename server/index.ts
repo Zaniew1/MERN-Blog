@@ -17,7 +17,8 @@ const app = express();
 // }));
 
 const corsOptions = {
-    origin: 'https://mern-blog-front-two.vercel.app',
+    // origin: 'https://mern-blog-front-two.vercel.app',
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
