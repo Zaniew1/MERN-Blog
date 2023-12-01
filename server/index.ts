@@ -11,8 +11,10 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(cors({
-  origin: "*",
-  allowedHeaders: "*",
+  origin: '*',
+  methods: '*',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 app.use("/images", express.static(__dirname + '/images'));
 
