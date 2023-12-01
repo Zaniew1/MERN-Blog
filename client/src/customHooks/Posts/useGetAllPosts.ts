@@ -1,5 +1,5 @@
 import {useEffect, useState, } from 'react';
-import {blogData} from '../../../public/data/data.js'
+// import {blogData} from '../../../public/data/data.js'
 
 import { PostType } from '../../types/blogTypes'
 

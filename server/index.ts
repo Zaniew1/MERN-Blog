@@ -19,7 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
-    res.send('Hello, this is your backend!, and this is tour mongodb pass'+process.env.MONGO_DB_PASS);
+    res.send('Hello, this is your backend!');
   });
 app.use(express.json());
 app.use(cookieParser());
