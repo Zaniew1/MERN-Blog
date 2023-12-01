@@ -10,7 +10,11 @@ import utilsRouter from './routes/utilsRoutes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(cors({credentials: true, origin:'http://localhost:5173'}));
+app.use(cors({
+    credentials: true,
+    origin:'https://mern-blog-front-two.vercel.app',
+    methods:["POST", "GET", "PATCH", "DELETE", "PUT"]
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.options('*', cors());
