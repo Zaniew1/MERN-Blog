@@ -12,12 +12,9 @@ import cookieParser from 'cookie-parser';
 const app = express();
 app.use(cors({
     credentials: true,
-    origin:'mern-blog-front-two.vercel.app',
-    methods:["POST", "GET", "PATCH", "DELETE", "PUT"]
+    origin:'https://mern-blog-front-two.vercel.app',
+    methods:["POST", "GET"]
 }));
-app.get('/', (req, res) => {
-    res.send('Hello, this is your backend!');
-  });
 app.use(express.json());
 app.use(cookieParser());
 app.options('*', cors());
