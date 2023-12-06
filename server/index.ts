@@ -10,25 +10,19 @@ import utilsRouter from './routes/utilsRoutes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(cors({
-  origin: '*',
-  methods: '*',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
+
 app.use("/images", express.static(__dirname + '/images'));
 
-// const corsOptions = {
-//     // origin: 'https://mern-blog-front-two.vercel.app',
-//     origin: '*',
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     // credentials: true,
-//     // optionsSuccessStatus: 204,
+const corsOptions = {
+    origin: 'https://mern-blog-front-two.vercel.app',
+    // origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
     
-//   };
-// // app.use(cors(corsOptions));
+  };
+app.use(cors(corsOptions));
 
-// app.options('*', cors());
 
 
 app.use(express.json());
@@ -36,6 +30,9 @@ app.use(cookieParser());
 app.use('/', userRouter);
 app.use('/article', blogRouter);
 app.use('/', utilsRouter);
+app.options('/article', cors());
+app.options('/', cors());
+
 // Creating server
 
 app.all('*', (req: Request, res:Response, next: NextFunction)=>{
