@@ -1,6 +1,7 @@
 import express from 'express';
 import * as blogController from '../controllers/blogController';
 // import {protect} from '../middleware/authMiddleware'
+import { allowCors } from '../helpers/helpers';
 import { uploadPostPhoto, resizePostPhoto } from '../middleware/uploadPhotoMiddleware';
 
 const blogRouter = express.Router();
@@ -12,7 +13,7 @@ blogRouter
 
 blogRouter
     .route('/:id')
-    .get(blogController.getArticle)
+    .get(allowCors, blogController.getArticle)
     .put(uploadPostPhoto,resizePostPhoto, blogController.editArticle)
     .delete(blogController.deleteArticle)
 

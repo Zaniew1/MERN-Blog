@@ -64,3 +64,13 @@ export const sendNewsletter = async (title:string ) => {
     })
 }
 
+export const allowCors = (fn) => async(req:Request, res:Response) =>{
+    res.setHeader("Access-Control-Allow-Origin", `${process.env.FRONT_DOMAIN}`);
+    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+    res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version");
+    if(req.method  === "OPTIONS"){
+        res.status(200).end()
+        return;
+    }
+    return await fn(req,res);
+} 

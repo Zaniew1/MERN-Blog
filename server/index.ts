@@ -14,7 +14,7 @@ const app = express();
 app.use("/images", express.static(__dirname + '/images'));
 
 const corsOptions = {
-    origin: 'https://mern-blog-front-two.vercel.app',
+    origin: `${process.env.FRONT_DOMAIN}`,
     // origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
