@@ -31,7 +31,6 @@ app.use('/', userRouter);
 app.use('/article', blogRouter);
 app.use('/', utilsRouter);
 app.options('/article', cors());
-app.options('/', cors());
 
 // Creating server
 
