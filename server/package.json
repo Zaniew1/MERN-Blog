@@ -31,7 +31,8 @@
     "@types/nodemailer": "^6.4.13",
     "nodemon": "^3.0.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "vite": "^5.0.6"
   },
   "name": "server",
   "version": "1.0.0",
