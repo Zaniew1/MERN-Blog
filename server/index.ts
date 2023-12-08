@@ -30,10 +30,10 @@ app.use("/", utilsRouter);
 app.options("/article", cors());
 
 // Creating server
-
 // app.all("*", (req: Request, res: Response, next: NextFunction) => {
 //   // next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
 // });
+
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", `${process.env.FRONT_DOMAIN}`);
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
@@ -47,7 +47,7 @@ app.listen(process.env.PORT || 3001, () => {
     .connect(`${process.env.MONGO_DB_PASS}`)
     .then(() => console.log("DB connection successful!"));
 });
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Hello, this is your backend!");
 });
 export default app;
