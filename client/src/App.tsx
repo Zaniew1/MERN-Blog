@@ -13,8 +13,6 @@ import { ContainerCard } from './components/Utilities/ContainerCard';
 import './index.css';
 import './root.css';
 function App() {
-  const a = import.meta.env.VITE_API_URL;
-  console.log(a)
   return (
     <ContainerCard>
       <Routes>
