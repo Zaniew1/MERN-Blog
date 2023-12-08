@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
-import AppError from "./utils/appError";
+// import AppError from "./utils/appError";
 import globalErrorHandler from "./controllers/errorController";
 import userRouter from "./routes/userRoutes";
 import blogRouter from "./routes/blogRoutes";
@@ -14,8 +14,8 @@ const app = express();
 app.use("/images", express.static(__dirname + "/images"));
 
 const corsOptions = {
-  // origin: `${process.env.FRONT_DOMAIN}`,
-  origin: "*",
+  origin: `${process.env.FRONT_DOMAIN}`,
+  // origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -34,8 +34,8 @@ app.options("/article", cors());
 // app.all("*", (req: Request, res: Response, next: NextFunction) => {
 //   // next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
 // });
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header("Access-Control-Allow-Origin", `${process.env.FRONT_DOMAIN}`);
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
