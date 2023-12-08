@@ -6,7 +6,7 @@ export const useForgetPassword = (email: string) => {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    const response = await fetch(blogData.serverDomain + "/forgetPassword", {
+    const response = await fetch(blogData.serverDomain + "forgetPassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

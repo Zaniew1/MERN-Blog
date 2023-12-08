@@ -13,7 +13,7 @@ export const useEditUser = (dataUser: EditUserType) => {
     data.set("name", dataUser.name);
     data.set("surname", dataUser.surname);
     data.set("avatar", dataUser.avatar ?? "");
-    const response = await fetch(blogData.serverDomain + "/editUser", {
+    const response = await fetch(blogData.serverDomain + "editUser", {
       method: "POST",
       body: data,
     });

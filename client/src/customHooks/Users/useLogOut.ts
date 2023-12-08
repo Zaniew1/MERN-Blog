@@ -7,7 +7,7 @@ export const useLogOut = () => {
   const { setloggedIn } = useContext(AuthContext);
   const { showError, showSuccess } = useShowInfo();
   const logOut = async () => {
-    const response = await fetch(blogData.serverDomain + "/logoutUser", {
+    const response = await fetch(blogData.serverDomain + "logoutUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -29,7 +29,7 @@ export const useCreateUser = (userData: CreateUserType) => {
         return showError(
           "Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny"
         );
-      const response = await fetch(blogData.serverDomain + "/createNewUser", {
+      const response = await fetch(blogData.serverDomain + "createNewUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

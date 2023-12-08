@@ -25,7 +25,7 @@ export const useChangePassword = (
       showError("Nowe hasło i potwierdzenie nowego hasła muszą być te same");
       return;
     }
-    const response = await fetch(blogData.serverDomain + "/changePassword", {
+    const response = await fetch(blogData.serverDomain + "changePassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

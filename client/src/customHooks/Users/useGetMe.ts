@@ -8,7 +8,7 @@ export const useGetMe = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const jwt = getCookie("jwt");
-      const response = await fetch(blogData.serverDomain + "/profile", {
+      const response = await fetch(blogData.serverDomain + "profile", {
         method: "GET",
         mode: "no-cors",
         headers: { Authorization: `Bearer ${jwt}` },
