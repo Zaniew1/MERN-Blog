@@ -19,7 +19,7 @@ export const useLoginUser = (data: { email: string; password: string }) => {
         "Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny"
       );
     }
-    const response = await fetch(blogData.serverDomain + "/loginUser", {
+    const response = await fetch(blogData.serverDomain + "loginUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
