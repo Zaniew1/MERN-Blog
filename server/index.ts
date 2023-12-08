@@ -31,9 +31,9 @@ app.options("/article", cors());
 
 // Creating server
 
-app.all("*", (req: Request, res: Response, next: NextFunction) => {
-  next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
-});
+// app.all("*", (req: Request, res: Response, next: NextFunction) => {
+//   // next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
+// });
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
