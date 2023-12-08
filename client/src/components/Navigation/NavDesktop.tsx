@@ -4,7 +4,6 @@ import {AuthContext} from '../../store/Auth-context';
 import { useLogOut } from '../../customHooks/Users/useLogOut';
 
 export const NavDesktop:React.FC = ():JSX.Element => {
-    console.log("Renderuję navdesk")
     const {loggedIn, userData} = useContext(AuthContext);
     const {logOut} = useLogOut();
 

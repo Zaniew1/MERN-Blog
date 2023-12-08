@@ -1,5 +1,4 @@
 export const Header:React.FC = ():JSX.Element =>{
-    console.log("Renderuję header")
     return (
         <header className="m-2.5 w-60%">
             <a href="/" className="flex flex-row justify-start items-end h-full">

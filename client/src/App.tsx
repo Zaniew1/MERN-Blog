@@ -13,7 +13,6 @@ import { ContainerCard } from './components/Utilities/ContainerCard';
 import './index.css';
 import './root.css';
 function App() {
-  console.log("Renderuję APP")
   return (
     <ContainerCard>
       <Routes>
@@ -29,8 +28,7 @@ function App() {
         <Route path={'/:id'} element={<SinglePost/>}></Route>
       </Routes>
     </ContainerCard>
-    
-)
+  )
 }
 
 export default App

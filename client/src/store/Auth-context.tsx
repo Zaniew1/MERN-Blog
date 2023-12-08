@@ -18,6 +18,8 @@ export const AuthContextProvider = (props: ContextPropsType) => {
   useEffect(()=>{
     const fetchUserData = async ()=>{
       const jwt = getCookie("jwt");
+      console.log(document.cookie)
+      console.log(jwt)
       // console.log(blogData.serverDomain+"/profile")
       const response = await fetch(blogData.serverDomain+"/profile", {
         method: "GET",

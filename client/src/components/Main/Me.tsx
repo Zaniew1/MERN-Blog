@@ -8,7 +8,6 @@ export const Me:React.FC = ():JSX.Element => {
     const [avatar, setAvatar] = useState<File | null>(null);
     const [name, setName] = useState<string>(userData.name);
     const [surname, setSurname] = useState<string>(userData.surname);
-    console.log("Renderuję ME")
     useEffect(()=>{
         setId(`${userData.id}`);
         setName(userData.name)

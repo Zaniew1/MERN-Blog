@@ -3,8 +3,6 @@ import { useState } from 'react';
 export const Subscription:React.FC = ():JSX.Element => {
     const [email, setEmail] = useState<string>('')
     const {subscribeNewsletter} = useSubscribeNewsletter(email)
-    console.log("Renderuję subscribe")
-    
     return(
         <article className="w-full flex justify-center">
  

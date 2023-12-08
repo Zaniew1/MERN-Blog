@@ -4,7 +4,6 @@ import { SinglePostImage } from './SinglePostImage';
 import { SinglePostInformation } from './SinglePostInformation';
 
 export const NewestPost:React.FC<PostType> = (props):JSX.Element =>{
-    console.log("Renderuję newest post")
     return (
             <article className=" flex flex-col w-[95%] pb-[25px] mt-[100px] border-b border-solid border-slate-300 z-10 md:w-[100%]  md:flex-row md:border-none ">
                     <div className="w-full lg:flex-col lg:flex lg:justify-center mr-[15px] md:w-[45%] md:flex-grow md:mx-[15px]">

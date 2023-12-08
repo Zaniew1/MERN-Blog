@@ -8,7 +8,6 @@ import { SinglePostImage } from './SinglePostImage';
 
 export const NextPost:React.FC<NextPostType> = (props):JSX.Element => {
     const {showMorePostsIndex} = useContext(UIContext);
-    console.log("Renderuję next post")
     return(
             <article className={`flex flex-col w-[95%]  z-10 border-b border-solid border-slate-300 md:mx-[15px] md:border-none md:mb-[40px] ${+props.index > 2 ? "md:w-[25%]  md:max-w-[33%]" : "md:w-[45%] md:max-w-[50%]"} ${+props.index >= +showMorePostsIndex ? "hidden" : ""} md:flex-grow `}>
                     <SinglePostImage id={props.id} style={`w-full h-1/2 cursor-pointer md:h-[250px]   ${+props.index > 2 ? "lg:h-[1/4]" : "lg:h-[300px]"}`} mainPicture={props.mainPicture}/>

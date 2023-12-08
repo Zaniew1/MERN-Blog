@@ -13,8 +13,6 @@ import {useGetAllPosts} from '../../customHooks/Posts/useGetAllPosts'
 export const Home = memo( function Home(){
     const {showMorePostsIndex} = useContext(UIContext);
     const posts = useGetAllPosts();
-    
-    console.log("Renderuję HOME")
     return (
         <>
             <Suspense fallback={<Loading />}>

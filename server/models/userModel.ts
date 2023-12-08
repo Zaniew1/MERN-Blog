@@ -1,73 +1,84 @@
-import bcrypt from 'bcryptjs'
-import crypto from 'crypto'
-import { Model, Schema, model, CallbackWithoutResultAndOptionalError} from 'mongoose';
-import { UserSchemaType } from '../types/blogTypes';
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
+import {
+  Model,
+  Schema,
+  model,
+  CallbackWithoutResultAndOptionalError,
+} from "mongoose";
+import { UserSchemaType } from "../types/blogTypes";
 
 const UserSchema = new Schema<UserSchemaType>({
-    email:{
-        type:String,
-        required: true,
-        unique: true,
-        minlength: 4
-    },
-    name:{
-        type:String,
-        required: true,
-        minlength: 3,
-        maxLength: 12
-    },
-    surname:{
-        type:String,
-        required: true,
-        minlength: 3,
-        maxLength: 15
-    },
-    password:{
-        type: String,
-        required: true,
-        minlenght: 8,
-        select: false
-    },
-    confirmPassword:{
-        type: String,
-        required: true,
-        select: false ,
-        minlenght: 8,
-    },
-    creationDate:{
-       default: (new Date().getTime()),
-       type: Number,
-    },
-    passwordResetToken: {
-        type: String
-    },
-    passwordResetExpires: {
-        type: Number
-    },
-    avatar:{
-        type:String
-    }
-})
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 4,
+  },
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxLength: 12,
+  },
+  surname: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxLength: 15,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlenght: 8,
+    select: false,
+  },
+  confirmPassword: {
+    type: String,
+    required: true,
+    select: false,
+    minlenght: 8,
+  },
+  creationDate: {
+    default: new Date().getTime(),
+    type: Number,
+  },
+  passwordResetToken: {
+    type: String,
+  },
+  passwordResetExpires: {
+    type: Number,
+  },
+  avatar: {
+    type: String,
+  },
+});
 
-UserSchema.methods.createPasswordResetToken = function(){
-    const resetToken = crypto.randomBytes(32).toString('hex');
-    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-    return resetToken;
-}
-UserSchema.pre('save' , async function(next: CallbackWithoutResultAndOptionalError ){
+UserSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  return resetToken;
+};
+UserSchema.pre(
+  "save",
+  async function (next: CallbackWithoutResultAndOptionalError) {
     // isModified is mongoose function
-    if(!this.isModified('password')) return next();
+    if (!this.isModified("password")) return next();
     // 12 value stands for how strong encryption will be
-     this.password = await bcrypt.hash(this.password, 12); 
-     this.confirmPassword = '';
-    next(); 
-})
-UserSchema.pre('save', function(next: CallbackWithoutResultAndOptionalError){
-    if(!this.isModified('password') || this.isNew ) return next();
-    // this.passwordChangedAt = Date.now() -1000;
+    this.password = await bcrypt.hash(this.password, 12);
+    this.confirmPassword = "";
     next();
-})
-const UserModel: Model<UserSchemaType> = model('Users', UserSchema);
+  }
+);
+UserSchema.pre("save", function (next: CallbackWithoutResultAndOptionalError) {
+  if (!this.isModified("password") || this.isNew) return next();
+  // this.passwordChangedAt = Date.now() -1000;
+  next();
+});
+const UserModel: Model<UserSchemaType> = model("Users", UserSchema);
 
 export default UserModel;

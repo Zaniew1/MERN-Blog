@@ -6,7 +6,6 @@ import { useLogOut } from '../../customHooks/Users/useLogOut';
 export const NavMobile:React.FC = ():JSX.Element => {
     const {mobileNav} = useContext(UIContext);
     const {loggedIn, userData} = useContext(AuthContext);
-    console.log("Renderuję navmob")
     const {logOut} = useLogOut();
 
     return (
