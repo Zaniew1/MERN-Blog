@@ -1,16 +1,10 @@
 {
-     "version": 2,
-     "builds": [
+    "buildCommand":"npm i && npm run build",
+    "outputDirectory":"server/dist",
+    "rewrites": [
         {
-            "src": "/index.ts",
-            "use": "@vercel/node",
-            "config": { "includeFiles": ["dist/**"] }
+            "source": "/server/(.*)",
+            "destination": "/server/dist/index.js"
         }
-     ],
-     "routes":[
-        {
-            "src": "/(.*)",
-            "dest": "dist/index.js"
-        }
-     ]
-  }
+    ]
+}
