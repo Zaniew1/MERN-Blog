@@ -10,6 +10,7 @@ export const useGetMe = () => {
       const jwt = getCookie("jwt");
       const response = await fetch(blogData.serverDomain + "/profile", {
         method: "GET",
+        mode: "no-cors",
         headers: { Authorization: `Bearer ${jwt}` },
       });
       if (response.ok) {

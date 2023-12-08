@@ -24,6 +24,7 @@ export const useLoginUser = (data: { email: string; password: string }) => {
       headers: {
         "Content-Type": "application/json",
       },
+      mode: "no-cors",
       body: JSON.stringify(data),
       // credentials: 'include'
     });
