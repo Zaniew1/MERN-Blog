@@ -29,17 +29,6 @@ app.use("/article", blogRouter);
 app.use("/", utilsRouter);
 app.options("/article", cors());
 
-// Creating server
-// app.all("*", (req: Request, res: Response, next: NextFunction) => {
-//   // next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
-// });
-
-// app.use((req: Request, res: Response, next: NextFunction) => {
-//   res.header("Access-Control-Allow-Origin", `${process.env.FRONT_DOMAIN}`);
-//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
-//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   next();
-// });
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
