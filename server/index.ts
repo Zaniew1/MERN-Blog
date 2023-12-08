@@ -34,12 +34,25 @@ app.options("/article", cors());
 //   // next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
 // });
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Origin", `${process.env.FRONT_DOMAIN}`);
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   res.header("Access-Control-Allow-Origin", `${process.env.FRONT_DOMAIN}`);
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
   next();
 });
+
 app.use(globalErrorHandler);
 app.listen(process.env.PORT || 3001, () => {
   console.log("Server runs good !");
