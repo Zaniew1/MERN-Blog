@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { blogData } from "../../../public/data/data.js";
-
 import { PostType } from "../../types/blogTypes";
 
 export const useGetAllPosts = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch(blogData.serverDomain + "/article", {
+      const response = await fetch(import.meta.env.VITE_API_URL + "/article", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

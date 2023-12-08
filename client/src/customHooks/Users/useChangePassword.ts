@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { blogData } from "../../../public/data/data.js";
 import { AuthContext } from "../../store/Auth-context";
 import { useShowInfo } from "../useShowInfo";
 export const useChangePassword = (
@@ -25,19 +24,22 @@ export const useChangePassword = (
       showError("Nowe hasło i potwierdzenie nowego hasła muszą być te same");
       return;
     }
-    const response = await fetch(blogData.serverDomain + "changePassword", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        oldPass,
-        newPass,
-        confirmNewPass,
-        email: userData.email,
-      }),
-      // credentials: 'include'
-    });
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "changePassword",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          oldPass,
+          newPass,
+          confirmNewPass,
+          email: userData.email,
+        }),
+        // credentials: 'include'
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (response.status === 200) {

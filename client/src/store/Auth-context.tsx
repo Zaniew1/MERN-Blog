@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { getCookie } from "../utils/cookies";
-import {blogData} from '../../public/data/data.js'
 
 import {UserType, AuthContextType,ContextPropsType, emptyUserType } from '../types/blogTypes'
 
@@ -18,10 +17,10 @@ export const AuthContextProvider = (props: ContextPropsType) => {
   useEffect(()=>{
     const fetchUserData = async ()=>{
       const jwt = getCookie("jwt");
-      console.log(document.cookie)
-      console.log(jwt)
+      // console.log(document.cookie)
+      // console.log(jwt)
       // console.log(blogData.serverDomain+"/profile")
-      const response = await fetch(blogData.serverDomain+"/profile", {
+      const response = await fetch(import.meta.env.VITE_API_URL+"/profile", {
         method: "GET",
         headers: {Authorization: `Bearer ${jwt}`}
       })

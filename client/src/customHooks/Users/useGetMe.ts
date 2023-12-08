@@ -1,5 +1,4 @@
 import { UserType, emptyUserType } from "../../types/blogTypes";
-import { blogData } from "../../../public/data/data.js";
 import { useEffect, useState } from "react";
 import { getCookie } from "../../utils/cookies";
 export const useGetMe = () => {
@@ -8,7 +7,7 @@ export const useGetMe = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const jwt = getCookie("jwt");
-      const response = await fetch(blogData.serverDomain + "profile", {
+      const response = await fetch(import.meta.env.VITE_API_URL + "profile", {
         method: "GET",
         mode: "no-cors",
         headers: { Authorization: `Bearer ${jwt}` },

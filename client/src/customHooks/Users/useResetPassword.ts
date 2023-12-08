@@ -1,5 +1,4 @@
 import { useShowInfo } from "../useShowInfo";
-import { blogData } from "../../../public/data/data.js";
 export const useResetPassword = (password: string, passwordConfirm: string) => {
   const { showError, showSuccess } = useShowInfo();
   const resetPassword = async (
@@ -21,7 +20,7 @@ export const useResetPassword = (password: string, passwordConfirm: string) => {
       return showError("Hasła nie są jednakowe");
 
     const response = await fetch(
-      `${blogData.serverDomain}${window.location.pathname}`,
+      `${import.meta.env.VITE_API_URL}${window.location.pathname}`,
       {
         method: "PATCH",
         headers: {

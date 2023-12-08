@@ -1,5 +1,4 @@
 import { EditUserType } from "../../types/blogTypes";
-import { blogData } from "../../../public/data/data.js";
 import { useContext } from "react";
 import { AuthContext } from "../../store/Auth-context";
 import { useShowInfo } from "../useShowInfo";
@@ -13,7 +12,7 @@ export const useEditUser = (dataUser: EditUserType) => {
     data.set("name", dataUser.name);
     data.set("surname", dataUser.surname);
     data.set("avatar", dataUser.avatar ?? "");
-    const response = await fetch(blogData.serverDomain + "editUser", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "editUser", {
       method: "POST",
       body: data,
     });

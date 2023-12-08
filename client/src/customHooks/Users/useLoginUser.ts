@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { blogData } from "../../../public/data/data.js";
 import { AuthContext } from "../../store/Auth-context";
 import { UserType, LoginDataType } from "../../types/blogTypes";
 import { useShowInfo } from "../useShowInfo";
@@ -19,7 +18,7 @@ export const useLoginUser = (data: { email: string; password: string }) => {
         "Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny"
       );
     }
-    const response = await fetch(blogData.serverDomain + "loginUser", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "loginUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

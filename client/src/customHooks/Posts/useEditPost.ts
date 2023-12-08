@@ -1,5 +1,4 @@
 import { CreatePostType } from "../../types/blogTypes";
-import { blogData } from "../../../public/data/data.js";
 import { useShowInfo } from "../useShowInfo";
 export const useEditPost = (id: string, postData: CreatePostType) => {
   const { showError, showSuccess } = useShowInfo();
@@ -28,10 +27,13 @@ export const useEditPost = (id: string, postData: CreatePostType) => {
     data.set("content", postData.content);
     data.set("contentCategory", postData.contentCategory);
     data.set("mainPicture", postData.mainPicture ?? "");
-    const response = await fetch(blogData.serverDomain + "/article/" + id, {
-      method: "PUT",
-      body: data,
-    });
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/article/" + id,
+      {
+        method: "PUT",
+        body: data,
+      }
+    );
     if (!response.ok) {
       showError("Nie udało się edytować artykułu. Spróbuj ponownie później!");
     } else {

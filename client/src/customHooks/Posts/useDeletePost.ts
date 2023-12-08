@@ -1,15 +1,17 @@
 import { useShowInfo } from "../useShowInfo";
-import { blogData } from "../../../public/data/data.js";
 export const useDeletePost = (id: string) => {
   const { showError, showSuccess } = useShowInfo();
   const deletePost = async () => {
     try {
-      const response = await fetch(blogData.serverDomain + "/article/" + id, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        import.meta.env.VITE_API_URL + "/article/" + id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
         showSuccess("Usunięto posta!");
       } else {

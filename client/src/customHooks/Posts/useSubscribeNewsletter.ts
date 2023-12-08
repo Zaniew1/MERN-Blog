@@ -1,12 +1,11 @@
 import { useShowInfo } from "../useShowInfo";
-import { blogData } from "../../../public/data/data.js";
 export const useSubscribeNewsletter = (email: string) => {
   const { showError, showSuccess } = useShowInfo();
   const subscribeNewsletter = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    const response = await fetch(blogData.serverDomain + "/newsletter", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/newsletter", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

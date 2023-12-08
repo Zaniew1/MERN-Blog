@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { blogData } from "../../../public/data/data.js";
 import { AuthContext } from "../../store/Auth-context";
 import { CreateUserType } from "../../types/blogTypes";
 import { useShowInfo } from "../useShowInfo";
@@ -29,14 +28,17 @@ export const useCreateUser = (userData: CreateUserType) => {
         return showError(
           "Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny"
         );
-      const response = await fetch(blogData.serverDomain + "createNewUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-        // credentials: 'include'
-      });
+      const response = await fetch(
+        import.meta.env.VITE_API_URL + "createNewUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+          // credentials: 'include'
+        }
+      );
       if (!response.ok) {
         showError("Nie udało się stworzyć użytkownika");
       } else {
