@@ -143,17 +143,17 @@ export const getAllArticles: RequestHandler = catchAsync(
     res.status(201).json({
       status: "success",
     });
-    const posts = await BlogModel.find().populate("creator", [
-      "name",
-      "surname",
-      "email",
-      "avatar",
-    ]);
-    console.log(posts);
-    res.status(200).json({
-      status: "success",
-      posts,
-    });
+    // const posts = await BlogModel.find().populate("creator", [
+    //   "name",
+    //   "surname",
+    //   "email",
+    //   "avatar",
+    // ]);
+    // console.log(posts);
+    // res.status(200).json({
+    //   status: "success",
+    //   posts,
+    // });
   }
 );
 
