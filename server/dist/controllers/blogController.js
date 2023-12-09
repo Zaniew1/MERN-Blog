@@ -101,20 +101,17 @@ exports.editArticle = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
     }
 }));
 exports.getAllArticles = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(201).json({
+    const posts = yield blogModel_1.default.find().populate("creator", [
+        "name",
+        "surname",
+        "email",
+        "avatar",
+    ]);
+    console.log(posts);
+    res.status(200).json({
         status: "success",
+        posts,
     });
-    // const posts = await BlogModel.find().populate("creator", [
-    //   "name",
-    //   "surname",
-    //   "email",
-    //   "avatar",
-    // ]);
-    // console.log(posts);
-    // res.status(200).json({
-    //   status: "success",
-    //   posts,
-    // });
 }));
 exports.getArticle = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const post = yield blogModel_1.default.findById(req.params.id).populate("creator", [
