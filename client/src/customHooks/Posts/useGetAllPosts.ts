@@ -7,7 +7,6 @@ export const useGetAllPosts = () => {
     const fetchPosts = async () => {
       const response = await fetch(import.meta.env.VITE_API_URL + "/article", {
         method: "GET",
-        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
