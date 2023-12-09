@@ -18,7 +18,7 @@ export const useLoginUser = (data: { email: string; password: string }) => {
         "Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny"
       );
     }
-    const response = await fetch(import.meta.env.VITE_API_URL + "loginUser", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/loginUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

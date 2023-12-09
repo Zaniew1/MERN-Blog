@@ -12,7 +12,7 @@ export const useEditUser = (dataUser: EditUserType) => {
     data.set("name", dataUser.name);
     data.set("surname", dataUser.surname);
     data.set("avatar", dataUser.avatar ?? "");
-    const response = await fetch(import.meta.env.VITE_API_URL + "editUser", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/editUser", {
       method: "POST",
       body: data,
     });

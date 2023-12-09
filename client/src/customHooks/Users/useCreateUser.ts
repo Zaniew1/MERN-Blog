@@ -29,7 +29,7 @@ export const useCreateUser = (userData: CreateUserType) => {
           "Hasło powinno zawierać minimum 8 znaków, 1 dużą literę, 1 małą i jeden znak specjalny"
         );
       const response = await fetch(
-        import.meta.env.VITE_API_URL + "createNewUser",
+        import.meta.env.VITE_API_URL + "/createNewUser",
         {
           method: "POST",
           headers: {

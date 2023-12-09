@@ -6,7 +6,7 @@ export const useForgetPassword = (email: string) => {
   ): Promise<void> => {
     e.preventDefault();
     const response = await fetch(
-      import.meta.env.VITE_API_URL + "forgetPassword",
+      import.meta.env.VITE_API_URL + "/forgetPassword",
       {
         method: "POST",
         headers: {

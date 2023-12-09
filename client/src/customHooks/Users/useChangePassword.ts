@@ -25,7 +25,7 @@ export const useChangePassword = (
       return;
     }
     const response = await fetch(
-      import.meta.env.VITE_API_URL + "changePassword",
+      import.meta.env.VITE_API_URL + "/changePassword",
       {
         method: "POST",
         headers: {
