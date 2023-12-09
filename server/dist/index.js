@@ -29,14 +29,13 @@ app.use("/", userRoutes_1.default);
 app.use("/article", blogRoutes_1.default);
 app.use("/", utilsRoutes_1.default);
 app.options("/article", (0, cors_1.default)());
-// Creating server
-// app.all("*", (req: Request, res: Response, next: NextFunction) => {
-//   // next(new AppError(`Cant find ${req.originalUrl} on this server`, 404));
-// });
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", `${process.env.FRONT_DOMAIN}`);
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
     next();
 });
 app.use(errorController_1.default);
