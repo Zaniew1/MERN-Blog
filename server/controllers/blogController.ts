@@ -140,12 +140,16 @@ export const editArticle: RequestHandler<{ id: string }> = catchAsync(
 
 export const getAllArticles: RequestHandler = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    res.status(201).json({
+      status: "success",
+    });
     const posts = await BlogModel.find().populate("creator", [
       "name",
       "surname",
       "email",
       "avatar",
     ]);
+    console.log(posts);
     res.status(200).json({
       status: "success",
       posts,
