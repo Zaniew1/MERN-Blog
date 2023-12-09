@@ -12,6 +12,7 @@ export const useGetAllPosts = () => {
         },
       });
       const data = await response.json();
+      console.log(data);
       setPosts(data.posts);
     };
     fetchPosts();
