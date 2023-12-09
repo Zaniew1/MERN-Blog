@@ -9,7 +9,6 @@ export const useGetMe = () => {
       const jwt = getCookie("jwt");
       const response = await fetch(import.meta.env.VITE_API_URL + "/profile", {
         method: "GET",
-        mode: "no-cors",
         headers: { Authorization: `Bearer ${jwt}` },
       });
       if (response.ok) {
