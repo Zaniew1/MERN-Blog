@@ -21,14 +21,6 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
-
-app.use(express.json());
-app.use(cookieParser());
-app.use("/", userRouter);
-app.use("/article", blogRouter);
-app.use("/", utilsRouter);
-app.options("/article", cors());
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -41,6 +33,12 @@ app.use((req, res, next) => {
   }
   next();
 });
+app.use(express.json());
+app.use(cookieParser());
+app.use("/", userRouter);
+app.use("/article", blogRouter);
+app.use("/", utilsRouter);
+app.options("/article", cors());
 
 app.use(globalErrorHandler);
 app.listen(process.env.PORT || 3001, () => {
