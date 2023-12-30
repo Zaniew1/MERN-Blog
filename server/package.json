@@ -42,8 +42,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.ts",
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
-    "build": "rimraf dist && tsc",
-    "vercel-build": ""
+    "build": "rimraf dist && tsc"
+
   },
   "keywords": [],
   "author": "",
