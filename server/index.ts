@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
@@ -10,7 +10,14 @@ import utilsRouter from "./routes/utilsRoutes";
 import cookieParser from "cookie-parser";
 
 const app = express();
-
+app.listen(process.env.PORT || 3001, () => {
+  console.log("Server runs good !");
+  mongoose.connect(`${process.env.MONGO_DB_PASS}`).then(() =>
+    app.get("/", (req: Request, res: Response) => {
+      res.send("Hello, this is your backend!");
+    })
+  );
+});
 app.use("/images", express.static(__dirname + "/images"));
 
 const corsOptions = {
@@ -40,13 +47,5 @@ app.use("/article", blogRouter);
 app.use("/", utilsRouter);
 app.options("/article", cors());
 app.use(globalErrorHandler);
-app.listen(process.env.PORT || 3001, () => {
-  console.log("Server runs good !");
-  mongoose.connect(`${process.env.MONGO_DB_PASS}`).then(() =>
-    app.get("/", (req: Request, res: Response) => {
-      res.send("Hello, this is your backend!");
-    })
-  );
-});
 
 export default app;
