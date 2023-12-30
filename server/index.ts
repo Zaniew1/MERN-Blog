@@ -39,12 +39,6 @@ app.use("/", userRouter);
 app.use("/article", blogRouter);
 app.use("/", utilsRouter);
 app.options("/article", cors());
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 55e005a55f21f98a5559acbc8e3b5585544485b8
-
 app.use(globalErrorHandler);
 app.listen(process.env.PORT || 3001, () => {
   console.log("Server runs good !");
