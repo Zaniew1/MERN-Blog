@@ -20,14 +20,9 @@ app.listen(process.env.PORT || 3001, () => {
 });
 app.use("/images", express.static(__dirname + "/images"));
 
-const corsOptions = {
-  origin: `${process.env.FRONT_DOMAIN}`,
-  // origin: "*",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
-app.use(cors(corsOptions));
+app.use(cors());
+app.options("*", cors());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -45,7 +40,6 @@ app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/article", blogRouter);
 app.use("/", utilsRouter);
-app.options("/article", cors());
 app.use(globalErrorHandler);
 
 export default app;
