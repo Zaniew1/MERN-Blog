@@ -26,9 +26,9 @@ const corsOptions = {
   credentials: true,
   // optionsSuccessStatus: 204,
 };
-app.use(cors(corsOptions));
-// app.use(cors());
-app.options("*", cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
+app.options("*", cors());
 app.use("/images", express.static(__dirname + "/images"));
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*");
