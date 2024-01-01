@@ -18,34 +18,34 @@ app.listen(process.env.PORT || 3001, () => {
     })
   );
 });
-app.use("/images", express.static(__dirname + "/images"));
 
 const corsOptions = {
   // origin: `${process.env.FRONT_DOMAIN}`,
   origin: "https://blog-front-90ub.onrender.com/",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-  optionsSuccessStatus: 204,
+  // optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
+app.options("*", cors());
+app.use("/images", express.static(__dirname + "/images"));
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+//   );
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   if (req.method === "OPTIONS") {
+//     return res.sendStatus(200);
+//   }
+//   next();
+// });
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/article", blogRouter);
 app.use("/", utilsRouter);
-app.options("/article", cors());
 app.use(globalErrorHandler);
 
 export default app;
