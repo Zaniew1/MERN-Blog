@@ -21,8 +21,8 @@ app.listen(process.env.PORT || 3001, () => {
 app.use("/images", express.static(__dirname + "/images"));
 
 const corsOptions = {
-  origin: `${process.env.FRONT_DOMAIN}`,
-  // origin: "*",
+  // origin: `${process.env.FRONT_DOMAIN}`,
+  origin: "https://blog-front-90ub.onrender.com/",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
