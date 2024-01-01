@@ -12,7 +12,7 @@ export const SinglePostInformation:React.FC<{creator:UserType, creationDate:numb
         <div className="w-full justify-start items-center md:justify-between  my-[15px] flex ">
             <div className="flex mr-[15px]">
                 <div className={props.imgStyle}>
-                    <img className="w-full h-full rounded-[50%]" src={`http://localhost:3001/images/users/${props.creator.avatar ?? "user.jpg"}`}/>
+                    <img className="w-full h-full rounded-[50%]" src={`${import.meta.env.VITE_API_URL}/images/users/${props.creator.avatar ?? "user.jpg"}`}/>
                 </div>
                 <div className="flex flex-col justify-center items-start">
                     <p className={props.textStyle}>{props.creator.name+" "+props.creator.surname}</p>
