@@ -23,6 +23,7 @@ app.use("/images", express.static(__dirname + "/images"));
 app.use(cors());
 app.options("*", cors());
 app.use(express.json());
+console.log("1");
 app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/article", blogRouter);
