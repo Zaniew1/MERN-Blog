@@ -98,7 +98,7 @@ exports.forgetPassword = (0, catchAsync_1.default)((req, res, next) => __awaiter
     // we turn off any validation in UserSchema
     yield user.save({ validateBeforeSave: false });
     try {
-        const resetURL = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`;
+        const resetURL = `${'https://mern-blog-front-two.vercel.app'}/resetPassword/${resetToken}`;
         yield new email_1.default(req.body.email, resetURL).sendPasswordReset();
         res.status(200).json({
             status: "success",

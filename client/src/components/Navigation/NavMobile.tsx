@@ -15,7 +15,7 @@ export const NavMobile:React.FC = ():JSX.Element => {
                 {loggedIn && <a href="/CreateNewPost" className=" py-[10px] text-[1em]   text-black opacity-40  hover:text-neutral-500">Dodaj post</a> }
                 {loggedIn && <a className=" text-[1em] py-[10px]  text-black opacity-40  cursor-pointer hover:text-neutral-500" onClick={logOut}>Wyloguj</a>}
                 {loggedIn &&  <a href="/me" className="cursor-pointer md:w-[30px] md:h-[30px] ">
-                                <img className="w-[40px] h-[40px] rounded-[50%]" src={`http://localhost:3001/images/users/${userData.avatar ?? "user.jpg"}`}/>
+                                <img className="w-[40px] h-[40px] rounded-[50%]" src={`${import.meta.env.VITE_API_URL}/images/users/${userData.avatar ?? "user.jpg"}`}/>
                             </a>}
                 <Socials customStyle={"items-left text-slate-400 py-[15px] text-[1.4em]"}/>
             </div>
