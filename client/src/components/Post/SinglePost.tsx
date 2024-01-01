@@ -3,6 +3,7 @@ import { useGetOnePost } from "../../customHooks/Posts/useGetOnePost";
 import { PostType } from '../../types/blogTypes';
 import { SinglePostImage } from "./SinglePostImage";
 export const SinglePost:React.FC = ():JSX.Element =>{
+  console.log(window.location.pathname)
   const {data} = useGetOnePost(window.location.pathname)
   const {title, mainPicture, creator, content, contentCategory, creationDate} = data as PostType
     return (
